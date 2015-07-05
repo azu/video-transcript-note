@@ -9,7 +9,6 @@ import VideoTranscriptTracker from "./video-transcript-tracker.js";
 var videoElement = document.querySelector('#player');
 videoElement.addEventListener('timeupdate', function (ev) {
     // this is 20.5 sec for 20 seconds and a bit into the video
-    update(ev.target.currentTime);
 });
 var controller = new VideoController(document.body, videoElement);
 var prefetcher = new VideoPrefetcher(videoElement);
