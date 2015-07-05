@@ -24,7 +24,7 @@ e.g.) new VideoPrefetcher(videoElement);`)
         this.request.addEventListener("progress", this._onProgress);
         this.request.addEventListener("load", (event)=> {
             if (this.request.status != 200) {
-                this._onLoad(new Error("Unexpected status code " + xhr.status + " for " + this.originalSrc));
+                this._onLoad(new Error("Unexpected status code " + this.request.status + " for " + this.originalSrc));
                 return;
             }
             console.log(this.video.currentType);

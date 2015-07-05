@@ -1,7 +1,6 @@
 "use strict";
 /**
  * VideoTranscriptTrackerはTranscriptの変更を管理するクラスです。
- *
  */
 export default class VideoTranscriptTracker {
     constructor(video) {

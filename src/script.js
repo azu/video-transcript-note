@@ -4,12 +4,7 @@ var fs = require("fs");
 import VideoController from "./video-controller";
 import VideoPrefetcher from "./video-prefetcher";
 import VideoTranscriptTracker from "./video-transcript-tracker.js";
-// pass the current time to the update function which
-// takes current time in seconds with fractions.
 var videoElement = document.querySelector('#player');
-videoElement.addEventListener('timeupdate', function (ev) {
-    // this is 20.5 sec for 20 seconds and a bit into the video
-});
 var controller = new VideoController(document.body, videoElement);
 var prefetcher = new VideoPrefetcher(videoElement);
 prefetcher.onProgress(function (error, event) {
