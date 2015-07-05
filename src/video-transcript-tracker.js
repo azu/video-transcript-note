@@ -68,5 +68,6 @@ export default class VideoTranscriptTracker {
     stop() {
         var tracks = this.video.textTracks;
         Array.from(tracks, this.unObserveTrack, this);
+        tracks.removeEventListener("change", this.handleChange)
     }
 }
