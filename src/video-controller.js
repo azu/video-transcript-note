@@ -3,9 +3,18 @@
 export default class VideoController {
     constructor(shortCutTarget, video) {
         this.video = video;
-        shortCutTarget.addEventListener("keydown", (event) => {
+        this.shortCutTarget = shortCutTarget;
+        this.handleOnKeyDown = (event) => {
             this.onKeyCode(event, event.keyCode)
-        });
+        }
+    }
+
+    start() {
+        this.shortCutTarget.addEventListener("keydown", this.handleOnKeyDown);
+    }
+
+    stop() {
+        this.shortCutTarget.removeEventListener("keydown", this.handleOnKeyDown);
     }
 
     onKeyCode(event, keyCode) {

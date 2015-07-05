@@ -17,8 +17,8 @@
     "test": "test"
   },
   "scripts": {
-    "build": "browserify -v -D -t babelify -t brfs src/script.js -o app.js",
-    "watch": "watchify -v -D -t babelify -t brfs src/script.js -o app.js"
+    "build": "browserify -v -d -t babelify -t brfs src/App.js -o build/app.js",
+    "watch": "watchify -v -d -t babelify -t brfs src/App.js -o build/app.js"
   },
   "description": "Video + Transcript + Trranslate + Note",
   "keywords": [
@@ -30,7 +30,14 @@
   ],
   "dependencies": {
     "array.from": "^0.2.0",
-    "srt2vtt": "^1.3.0"
+    "srt2vtt": "^1.3.0",
+    "react": "^0.13.2",
+    "react-code-mirror": "^3.0.4",
+    "react-remarkable": "^1.1.1",
+    "codemirror": "^5.2.0",
+    "font-awesome": "^4.3.0",
+    "lodash.debounce": "^3.1.0",
+    "material-flux": "^1.2.0"
   },
   "devDependencies": {
     "babelify": "^6.1.2",

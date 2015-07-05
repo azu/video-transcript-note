@@ -6,7 +6,7 @@ function isEmptyText(text) {
 }
 export function rubyTranslate(text) {
     var speRegExp = /([\s,.;:=@#<>\[\]{}()`'"!\/])/g;
-    var fragment = document.createDocumentFragment();
+    var fragment = document.createElement("div");
     var match, last_idx = 0;
     while (match = speRegExp.exec(text)) {
         var matchSeparator = match[0];
