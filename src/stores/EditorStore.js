@@ -101,7 +101,6 @@ export default class EditorStore extends Store {
         if (filePath == null) {
             return;
         }
-        return;
         var appName = require("../../package.json").name;
         readFile(filePath, (error, data) => {
             if (error) {
