@@ -39,7 +39,7 @@ function normalize(word) {
  * @returns {Array}
  */
 export function translateWord(word) {
-    var dictionary = require("../dict/gene.json");
+    var dictionary = require("../../dict/gene.json");
     var translated = dictionary[normalize(word)];
     if (!translated) {
         return [];

@@ -61,7 +61,9 @@ export default class VideoTranscriptTracker {
         var myTrack = event.target;
         var myCues = myTrack.activeCues;      // activeCues is an array of current cues.
         if (myCues.length > 0) {
-            Array.from(myCues, cue => this.handleCueChangeCallback(cue.text, myTrack), this);
+            Array.from(myCues, cue => {
+                this.handleCueChangeCallback(cue.text, myTrack)
+            }, this);
         }
     }
 

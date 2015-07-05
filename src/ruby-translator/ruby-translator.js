@@ -4,26 +4,6 @@ import {translateWord} from "./en-ja-translator";
 function isEmptyText(text) {
     return /^\s*$/.test(text);
 }
-/**
- * if check node can ruby?
- * @param {Node} node textNode
- * @returns {boolean}
- */
-function canTranslateNode(node) {
-    var nameReg = /^(#text|PRE|CODE|SPAN|A|RUBY|RT)$/;
-    var text = node.textContent;
-    if (isEmptyText(text)) {
-        return false;
-    }
-    var parentNodeName = node.parentNode.nodeName;
-    if (nameReg.test(parentNodeName)) {
-        return false;
-    }
-    if (text.length <= 2) {
-        return false;
-    }
-    return true;
-}
 export function rubyTranslate(text) {
     var speRegExp = /([\s,.;:=@#<>\[\]{}()`'"!\/])/g;
     var fragment = document.createDocumentFragment();
