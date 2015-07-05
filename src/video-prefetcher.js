@@ -9,9 +9,9 @@ e.g.) new VideoPrefetcher(videoElement);`)
         this.request = null;
         this.originalSrc = null;
         // default
-        this.onProgress = function onProgress() {
+        this._onProgress = function _onProgress() {
         };
-        this.onLoad = () => {
+        this._onLoad = () => {
         };
 
     }
@@ -21,10 +21,10 @@ e.g.) new VideoPrefetcher(videoElement);`)
         this.request = new XMLHttpRequest();
         this.request.open("GET", this.video.currentSrc);
         this.request.responseType = 'arraybuffer';
-        this.request.addEventListener("progress", this.onProgress);
+        this.request.addEventListener("progress", this._onProgress);
         this.request.addEventListener("load", (event)=> {
             if (this.request.status != 200) {
-                this.onLoad(new Error("Unexpected status code " + xhr.status + " for " + this.originalSrc));
+                this._onLoad(new Error("Unexpected status code " + xhr.status + " for " + this.originalSrc));
                 return;
             }
             console.log(this.video.currentType);
@@ -33,26 +33,26 @@ e.g.) new VideoPrefetcher(videoElement);`)
             });
             this.video.src = window.URL.createObjectURL(blob);
             this.video.setAttribute("controls", "");
-            this.onLoad(null, event);
+            this._onLoad(null, event);
         });
         this.request.send();
         this.video.removeAttribute("controls");
     }
 
-    setOnProgress(callback) {
-        this.onProgress = (event)=> {
+    onProgress(callback) {
+        this._onProgress = (event)=> {
             callback(null, event);
         };
     }
 
-    setOnLoad(callback) {
-        this.onLoad = callback;
+    onLoad(callback) {
+        this._onLoad = callback;
     }
 
     stop() {
         this.video.setAttribute("controls", "");
-        this.request.removeEventListener("progress", this.onProgress);
-        this.request.removeEventListener("load", this.onLoad);
+        this.request.removeEventListener("progress", this._onProgress);
+        this.request.removeEventListener("load", this._onLoad);
         this.request.abort();
     }
 }

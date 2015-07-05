@@ -29,6 +29,7 @@
     "note"
   ],
   "dependencies": {
+    "array.from": "^0.2.0",
     "srt2vtt": "^1.3.0"
   },
   "devDependencies": {

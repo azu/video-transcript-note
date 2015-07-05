@@ -12,12 +12,16 @@ videoElement.addEventListener('timeupdate', function (ev) {
 });
 var controller = new VideoController(document.body, videoElement);
 var prefetcher = new VideoPrefetcher(videoElement);
-prefetcher.setOnProgress(function (error, event) {
+prefetcher.onProgress(function (error, event) {
     var percentComplete = event.loaded / event.total;
     console.log((percentComplete * 100) + "%");
 });
-prefetcher.setOnLoad(function (error, event) {
+prefetcher.onLoad(function (error, event) {
     console.log("loaded", event);
 });
 prefetcher.start();
 var tracker = new VideoTranscriptTracker(videoElement);
+tracker.onChange(function (text) {
+    console.log(text);
+});
+tracker.start();
