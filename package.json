@@ -12,7 +12,7 @@
     "url": "https://github.com/azu/video-transcript-note/issues"
   },
   "version": "1.0.0",
-  "main": "index.html",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },

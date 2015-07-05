@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * VideoPrefetcher prefetch video.src and replace video.src to completed object url.
+ */
 export default class VideoPrefetcher {
     constructor(video) {
         if (!video) {
@@ -22,8 +25,8 @@ e.g.) new VideoPrefetcher(videoElement);`)
         this.request.open("GET", this.video.currentSrc);
         this.request.responseType = 'arraybuffer';
         this.request.addEventListener("progress", this._onProgress);
-        this.request.addEventListener("load", (event)=> {
-            if (this.request.status != 200) {
+        var onLoad = (event)=> {
+            if (this.request.status !== 200) {
                 this._onLoad(new Error("Unexpected status code " + this.request.status + " for " + this.originalSrc));
                 return;
             }
@@ -34,7 +37,13 @@ e.g.) new VideoPrefetcher(videoElement);`)
             this.video.src = window.URL.createObjectURL(blob);
             this.video.setAttribute("controls", "");
             this._onLoad(null, event);
-        });
+            this.request.removeEventListener("progress", this._onProgress);
+            this.request.removeEventListener("load", onLoad);
+        };
+        this.request.addEventListener("load", onLoad);
+        this.request.onerror = () => {
+            this._onLoad(new Error("Unexpected status code " + this.request.status + " for " + this.originalSrc));
+        };
         this.request.send();
         this.video.removeAttribute("controls");
     }
