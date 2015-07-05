@@ -3,16 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        .main {
+            width: 100%;
+        }
+
+        .transcript-area {
+            font-size: 30px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<video id="player" preload="auto" controls>
-    <source src="./videos/en.mp4"
-            type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-    <track kind="subtitles" src="./videos/en.vtt"
-           srclang="en"
-           label="English"
-           default/>
-</video>
+<div class="main">
+    <video id="player" preload="auto" controls>
+        <source src="./videos/en.mp4"
+                type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+        <track kind="subtitles" src="./videos/en.vtt"
+               srclang="en"
+               label="English"
+               default/>
+    </video>
+    <div id="js-transcript" class="transcript-area">
+
+    </div>
+</div>
 <script src="node_modules/array.from/array-from.js"></script>
 <script src="app.js"></script>
 </body>
