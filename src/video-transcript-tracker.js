@@ -29,7 +29,7 @@ export default class VideoTranscriptTracker {
             if (track.subtitles !== "subtitles") {
                 return false
             }
-            return track.mode === "Showing";
+            return track.mode !== "disabled";
         });
         if (availableTracks.length === 0) {
             if (this.handleDisableCallback) {

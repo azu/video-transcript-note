@@ -19,12 +19,16 @@ prefetcher.start();
 // transcript translator
 var transcriptContainer = document.getElementById("js-transcript");
 var tracker = new VideoTranscriptTracker(videoElement);
+Array.from(videoElement.textTracks, track => {
+    // hidden but could trace
+    track.mode = "hidden";
+});
 tracker.onEnable(function () {
     console.log("enable:default");
 });
 tracker.onDisable(function () {
     console.log("disable");
-    transcriptContainer.removeChild(transcriptContainer.firstElementChild);
+    transcriptContainer.innerHTML = "";
 });
 tracker.onChange(function (text) {
     transcriptContainer.innerHTML = "";
