@@ -8,10 +8,8 @@ export default class VideoViewer extends React.Component {
 
     componentDidMount() {
         this.video = React.findDOMNode(this.refs.video);
-        this.transcript = React.findDOMNode(this.refs.transcript);
         var controller = new VideoController(document.body, this.video);
         controller.start();
-        console.log(this.video);
         setTimeout(()=> {
             this.onStart();
         }, 1000)
