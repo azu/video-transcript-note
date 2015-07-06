@@ -31,9 +31,10 @@ class App extends React.Component {
     }
 
     _videoOnChange() {
-        console.log(this.videoStore.getCurrentTranscript());
         this.setState({
-            currentTranscript: this.videoStore.getCurrentTranscript()
+            currentTranscript: this.videoStore.getCurrentTranscript(),
+            videoURL: this.videoStore.getVideoURL(),
+            trackURL: this.videoStore.getTrackURL()
         });
     }
 
@@ -54,8 +55,8 @@ class App extends React.Component {
             <div className="App">
                 <div className="VideoViewer-container">
                     <VideoViewer context={context}
-                                 videoURL="./videos/Matt Edelman - Nemo. The natural nodejs automation solution _ JSConf US 2015-1DoveeFXptY.mp4"
-                                 trackURL="./videos/Matt Edelman - Nemo. The natural nodejs automation solution _ JSConf US 2015-1DoveeFXptY.en.vtt"/>
+                                 videoURL={this.state.videoURL}
+                                 trackURL={this.state.trackURL}/>
                     <VideoTranscript transcript={this.state.currentTranscript}/>
                 </div>
                 <div className="MarkdownEditor-container">
