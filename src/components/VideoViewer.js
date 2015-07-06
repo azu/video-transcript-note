@@ -8,7 +8,8 @@ export default class VideoViewer extends React.Component {
 
     componentDidMount() {
         this.video = React.findDOMNode(this.refs.video);
-        var controller = new VideoController(document.body, this.video);
+        var container = React.findDOMNode(this);
+        var controller = new VideoController(container, this.video);
         controller.start();
         setTimeout(()=> {
             this.onStart();
@@ -62,7 +63,8 @@ export default class VideoViewer extends React.Component {
     }
 
     render() {
-        return <div className="VideoViewer">
+        // http://stackoverflow.com/questions/3149362/capture-key-press-or-keydown-event-on-div-element
+        return <div className="VideoViewer" tabIndex="0">
             <video id="player" preload="auto" controls ref="video">
                 <source src={this.props.videoURL}/>
                 <track kind="subtitles" src={this.props.trackURL}
