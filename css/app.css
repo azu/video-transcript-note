@@ -1,0 +1,8 @@
+.VideoViewer-container {
+  width: 500px; }
+  .VideoViewer-container .VideoTranscript, .VideoViewer-container .VideoViewer {
+    width: 500px; }
+    .VideoViewer-container .VideoTranscript video, .VideoViewer-container .VideoViewer video {
+      width: 500px; }
+
+/*# sourceMappingURL=app.css.map */
