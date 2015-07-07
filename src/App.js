@@ -32,11 +32,10 @@ class App extends React.Component {
 
     _videoOnChange() {
         this.setState({
-            currentTranscript: this.videoStore.getCurrentTranscript(),
-            videoURL: this.videoStore.getVideoURL(),
-            trackURL: this.videoStore.getTrackURL()
+            currentTranscript: this.videoStore.getCurrentTranscript()
         });
     }
+
 
     componentWillUnmount() {
         this.videoStore.removeAllChangeListeners();
@@ -55,8 +54,8 @@ class App extends React.Component {
             <div className="App">
                 <div className="VideoViewer-container">
                     <VideoViewer context={context}
-                                 videoURL={this.state.videoURL}
-                                 trackURL={this.state.trackURL}/>
+                                 videoURL={this.videoStore.getVideoURL()}
+                                 trackURL={this.videoStore.getTrackURL()}/>
                     <VideoTranscript transcript={this.state.currentTranscript}/>
                 </div>
                 <div className="MarkdownEditor-container">

@@ -3,27 +3,7 @@ var React = require("react");
 var path = require("path");
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
-        // pdf.js instance
-        var contentWindow = document.querySelector(".PDFViewer").contentWindow;
-        var pdfViewerApplication = contentWindow.PDFViewerApplication;
-        var pdfViewer = pdfViewerApplication.pdfViewer;
-        var currentPage = pdfViewer.currentPageNumber;
-        var url = pdfViewerApplication.url;
-        var urlReg = /(^https?:|^file:)/;
-        var { context } = this.props;
-        if (!urlReg.test(url)) {
-            var markdownFilePath = context.editorStore.getFilePath();
-            if (markdownFilePath) {
-                url = path.relative(path.dirname(markdownFilePath), url);
-            }
-        }
-        var href = url + pdfViewer.location.pdfOpenParams;
-        var selectedText = contentWindow.getSelection();
-        var text = `## [Page ${currentPage}](${href})
-> ${selectedText}
 
-`;
-        context.editorAction.quote(text);
     }
 
     onCreateNewFile() {

@@ -3,6 +3,7 @@
 import VideoController from "../video-controller";
 import VideoPrefetcher from "../video-prefetcher";
 import VideoTranscriptTracker from "../video-transcript-tracker.js";
+import {captureVideo} from "../utils/video-capture";
 var React = require("react");
 export default class VideoViewer extends React.Component {
 
@@ -26,6 +27,10 @@ export default class VideoViewer extends React.Component {
     onStop() {
         this.prefetcher.stop();
         this.tracker.stop();
+    }
+
+    capture(){
+        return captureVideo(this.video);
     }
 
     onStart() {
