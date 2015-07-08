@@ -4,7 +4,7 @@ import VideoController from "../video-controller";
 import VideoPrefetcher from "../video-prefetcher";
 import VideoTranscriptTracker from "../video-transcript-tracker.js";
 import {captureVideo} from "../utils/video-capture";
-var React = require("react");
+import React from "react";
 export default class VideoViewer extends React.Component {
 
     componentDidMount() {
@@ -12,6 +12,11 @@ export default class VideoViewer extends React.Component {
         var container = React.findDOMNode(this);
         var controller = new VideoController(container, this.video);
         controller.start();
+
+        this.props.quoteCommunicator.onQuoteImageRequest((done) => {
+            var dataURL = this.capture();
+            done(dataURL);
+        });
         setTimeout(()=> {
             this.onStart();
         }, 1000)
@@ -29,7 +34,7 @@ export default class VideoViewer extends React.Component {
         this.tracker.stop();
     }
 
-    capture(){
+    capture() {
         return captureVideo(this.video);
     }
 

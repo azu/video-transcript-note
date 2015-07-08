@@ -8,8 +8,8 @@ export default class VideoStore extends Store {
         super(context);
         this.state = {
             currentTranscript: "",
-            videoURL: "./videos/Matt Edelman - Nemo. The natural nodejs automation solution _ JSConf US 2015-1DoveeFXptY.mp4",
-            trackURL: "./videos/Matt Edelman - Nemo. The natural nodejs automation solution _ JSConf US 2015-1DoveeFXptY.en.vtt"
+            videoURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.mp4",
+            trackURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.en.vtt"
         };
         this.register(keys.updateTranscript, this.onUpdateTranscript);
     }
@@ -27,7 +27,6 @@ export default class VideoStore extends Store {
     }
 
     onUpdateTranscript(text) {
-        console.log(text);
         this.setState({
             currentTranscript: text
         });

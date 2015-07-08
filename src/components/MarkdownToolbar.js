@@ -3,14 +3,16 @@ var React = require("react");
 var path = require("path");
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
-
+        this.props.quoteCommunicator.quoteImage((dataURL)=> {
+            console.log(dataURL);
+        });
     }
 
     onCreateNewFile() {
         var { context } = this.props;
         context.editorAction.createNewFile();
     }
-    
+
     onOpen() {
         var { context } = this.props;
         context.editorAction.openFile();

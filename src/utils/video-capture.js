@@ -7,8 +7,8 @@
  */
 export function captureVideo(video) {
     var canvas = document.createElement("canvas");
-    canvas.width = video.width;
-    canvas.height = video.height;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
     var canvasContext = canvas.getContext("2d");
     canvasContext.drawImage(video, 0, 0);
     return canvas.toDataURL('image/png');
