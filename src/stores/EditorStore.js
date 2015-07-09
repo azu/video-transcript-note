@@ -2,7 +2,8 @@
 "use strict";
 import { Store } from "material-flux"
 import { keys } from "../actions/EditorAction"
-var fs = require("fs");
+import path from "path"
+import fs from "fs";
 function readFile(filePath, callback) {
     var urlReg = /(^https?:|^file:)/;
     if (urlReg.test(filePath) || typeof fs.readFile === "undefined") {
@@ -32,6 +33,7 @@ export default class EditorStore extends Store {
         this.register(keys.createNewFile, this.onCreateNewFile);
         this.register(keys.save, this.onSave);
         this.register(keys.saveAsFile, this.onSaveAsFile);
+        this.register(keys.saveImage, this.onSaveImage);
         this.register(keys.openFile, this.onOpenFile);
         this.register(keys.readonly, this.onReadonly);
 
@@ -71,6 +73,13 @@ export default class EditorStore extends Store {
                 });
             }
         });
+    }
+
+    getSaveDir() {
+        if (this.getSaveDir() == null) {
+            return;
+        }
+        return path.dirname(this.state.filePath);
     }
 
     getFilePath() {
@@ -133,6 +142,25 @@ export default class EditorStore extends Store {
             this.setState({
                 filePath: filePath
             });
+        });
+    }
+
+
+    onSaveImage(fileName, dataURL) {
+        if (this.getSaveDir() == null) {
+            console.log("先にMarkdownを保存してください");
+            return;
+        }
+        var buffer = new Buffer(dataURL, 'base64');
+        var filePath = path.resolve(this.getSaveDir(), fileName);
+        fs.writeFile(filePath, buffer, (error) => {
+            var appName = require("../../package.json").name;
+            if (error) {
+                console.error(error);
+                new Notification(appName, {
+                    body: `Fail saving ${fileName}`
+                });
+            }
         });
     }
 

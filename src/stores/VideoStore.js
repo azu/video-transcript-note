@@ -14,6 +14,10 @@ export default class VideoStore extends Store {
         this.register(keys.updateTranscript, this.onUpdateTranscript);
     }
 
+    getVideoName() {
+        return path.filename(this.state.videoURL);
+    }
+
     getVideoURL() {
         return this.state.videoURL;
     }

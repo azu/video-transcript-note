@@ -7,6 +7,7 @@ export var keys = {
     quote: Symbol("quote"),
     createNewFile: Symbol("createNewFile"),
     saveAsFile: Symbol("saveAsFile"),
+    saveImage: Symbol("saveImage"),
     openFile: Symbol("openFile"),
     save: Symbol("save"),
     readonly: Symbol("readonly")
@@ -28,11 +29,15 @@ export default class EditorAction extends Action {
         }
     }
 
+    saveImage(fileName, dataURL) {
+        this.dispatch(keys.saveImage, fileName, dataURL)
+    }
+
     createNewFile() {
         this.dispatch(keys.createNewFile);
     }
 
-    changeReadonly(boolean){
+    changeReadonly(boolean) {
         this.dispatch(keys.readonly, boolean);
     }
 

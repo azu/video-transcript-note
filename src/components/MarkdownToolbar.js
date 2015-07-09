@@ -1,10 +1,12 @@
 "use strict";
-var React = require("react");
-var path = require("path");
+import React from "react";
+import path from "path";
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
         this.props.quoteCommunicator.quoteImage((dataURL)=> {
-            console.log(dataURL);
+            var { context } = this.props;
+            var videoName = context.videoStore.getVideoName();
+            context.editorAction.saveImage(videoName + ".png", dataURL);
         });
     }
 

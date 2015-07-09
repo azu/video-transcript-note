@@ -8,6 +8,12 @@ export default class QuoteCommunicator extends EventEmitter {
         });
     }
 
+    /*
+        onQuoteImageRequest(function(done){
+           var dataURL = "...";
+           done(dataURL);
+        })
+     */
     onQuoteImageRequest(callback) {
         this.on("before:quote", callback);
     }
