@@ -17,8 +17,9 @@
     "test": "test"
   },
   "scripts": {
-    "build": "browserify -v -d -t babelify -t brfs src/App.js -o build/app.js",
-    "watch": "watchify -v -d -t babelify -t brfs src/App.js -o build/app.js"
+    "build": "browserify -v -d -t babelify src/App.js -o build/app.js",
+    "watch": "watchify -v -d -t babelify src/App.js -o build/app.js",
+    "start": "electron ."
   },
   "description": "Video + Transcript + Trranslate + Note",
   "keywords": [
@@ -43,6 +44,7 @@
     "babelify": "^6.1.2",
     "brfs": "^1.4.0",
     "browserify": "^10.2.4",
+    "electron-prebuilt": "^0.29.2",
     "watchify": "^3.2.3"
   }
 }
