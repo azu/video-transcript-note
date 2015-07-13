@@ -6,6 +6,7 @@ import MarkdownEditor from "./components/MarkdownEditor";
 import MarkdownPreview from "./components/MarkdownPreview";
 import VideoTranscript from "./components/VideoTranscript"
 import VideoViewer from "./components/VideoViewer"
+import VideoInputField from "./components/VideoInputField"
 import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
 
@@ -44,6 +45,10 @@ class App extends React.Component {
         this.editorStore.removeAllChangeListeners();
     }
 
+    onInputVideoURL(videoURL) {
+
+    }
+
     render() {
         // toggle by MarkdownToolbar
         var MarkdownComponent;
@@ -54,6 +59,8 @@ class App extends React.Component {
         }
         return (
             <div className="App">
+                <VideoInputField handleSubmit={this.onInputVideoURL}/>
+
                 <div className="VideoViewer-container">
                     <VideoViewer context={context}
                                  videoURL={this.videoStore.getVideoURL()}
