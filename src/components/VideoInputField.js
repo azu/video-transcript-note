@@ -11,6 +11,7 @@ export default class VideoInputField extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         var videoURL = React.findDOMNode(this.refs.videoURL).value.trim();
+        console.log(videoURL);
         if (this.props.handleSubmit) {
             this.props.handleSubmit(videoURL);
         }
@@ -18,7 +19,7 @@ export default class VideoInputField extends React.Component {
 
     render() {
         return <div className="VideoInputField">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit.bind(this)}>
                 <label>動画URL</label>
                 <input type="text" ref="videoURL"/>
                 <input type="submit" value="Load"/>

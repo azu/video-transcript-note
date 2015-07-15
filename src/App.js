@@ -45,11 +45,11 @@ class App extends React.Component {
         this.editorStore.removeAllChangeListeners();
     }
 
-    onInputVideoURL(videoURL) {
-
-    }
-
     render() {
+        var onInputVideoURL = function (videoURL) {
+            context.videoAction.loadVideoURL(videoURL);
+        };
+
         // toggle by MarkdownToolbar
         var MarkdownComponent;
         if (this.state.readonly) {
@@ -59,7 +59,7 @@ class App extends React.Component {
         }
         return (
             <div className="App">
-                <VideoInputField handleSubmit={this.onInputVideoURL}/>
+                <VideoInputField handleSubmit={onInputVideoURL}/>
 
                 <div className="VideoViewer-container">
                     <VideoViewer context={context}
