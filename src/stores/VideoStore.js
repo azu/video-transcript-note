@@ -12,6 +12,7 @@ export default class VideoStore extends Store {
             trackURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.en.vtt"
         };
         this.register(keys.updateTranscript, this.onUpdateTranscript);
+        this.register(keys.loadVideoAndTrack, this.onLoadVideoAndTrack);
     }
 
     getVideoName() {
@@ -28,6 +29,13 @@ export default class VideoStore extends Store {
 
     getCurrentTranscript() {
         return this.state.currentTranscript;
+    }
+
+    onLoadVideoAndTrack(videoURL, trackURL) {
+        this.setState({
+            videoURL: videoURL,
+            trackURL: trackURL
+        });
     }
 
     onUpdateTranscript(text) {

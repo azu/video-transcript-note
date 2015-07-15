@@ -26,7 +26,7 @@ export default class VideoViewer extends React.Component {
         if (this.prefetcher) {
             this.onStop();
         }
-        this.onStart()
+        this.onStart();
     }
 
     onStop() {
@@ -75,8 +75,7 @@ export default class VideoViewer extends React.Component {
     render() {
         // http://stackoverflow.com/questions/3149362/capture-key-press-or-keydown-event-on-div-element
         return <div className="VideoViewer" tabIndex="0">
-            <video id="player" preload="auto" controls ref="video">
-                <source src={this.props.videoURL}/>
+            <video id="player" src={this.props.videoURL} preload="auto" controls ref="video">
                 <track kind="subtitles" src={this.props.trackURL}
                        srclang="en"
                        label="English"
