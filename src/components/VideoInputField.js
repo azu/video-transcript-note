@@ -11,7 +11,6 @@ export default class VideoInputField extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         var videoURL = React.findDOMNode(this.refs.videoURL).value.trim();
-        console.log(videoURL);
         if (this.props.handleSubmit) {
             this.props.handleSubmit(videoURL);
         }

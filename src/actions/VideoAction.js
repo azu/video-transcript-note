@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import { Action } from "material-flux"
-import {findTrack} from "../utils/track-util"
+import {convertTrackAsync} from "../utils/track-util"
 export var keys = {
     updateTranscript: Symbol("updateTranscript"),
     loadVideoURL: Symbol("loadVideoURL"),
@@ -13,11 +13,12 @@ export default class VideoAction extends Action {
     }
 
     loadVideoURL(videoURL) {
-        var findTrack2 = convertTrackAsync(videoURL, "srt");
-        this.dispatch(keys.loadVideoURL, videoURL);
+        convertTrackAsync(videoURL).then(trackURL => {
+            this.loadVideoAndTrack(videoURL, trackURL)
+        });
     }
 
-    loadVideoAndTrack(videoURL, transcriptURL) {
-
+    loadVideoAndTrack(videoURL, trackURL) {
+        this.dispatch(keys.loadVideoAndTrack, videoURL, trackURL);
     }
 }

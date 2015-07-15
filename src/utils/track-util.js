@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import srt2vtt from "srt2vtt";
-export function existFile(filePath) => {
+export function existFile(filePath) {
     try {
         fs.accessSync(filePath);
         return true;
@@ -15,16 +15,16 @@ export function convertTrackAsync(videoPath) {
     return new Promise((resolve, reject)=> {
         var vttTrack = findTrack(videoPath, "vtt");
         if (vttTrack) {
-            return vttTrack;
+            return resolve(vttTrack);
         }
         var srtTrack = findTrack(videoPath, "srt");
         if (!srtTrack) {
-            console.log(videoPath + "に対するsrt/vttファイルが見つかりません")
+            return reject(new Error(videoPath + "に対するsrt/vttファイルが見つかりません"));
         }
         var srtData = fs.readFileSync(srtTrack);
         srt2vtt(srtData, function (err, vttData) {
             if (err) {
-                reject(new Error(err));
+                return reject(new Error(err));
             }
             var srtFile = expectVTTTrackPath(videoPath);
             fs.writeFileSync(srtFile, vttData);
