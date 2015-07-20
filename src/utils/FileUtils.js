@@ -1,26 +1,29 @@
 // LICENSE : MIT
 "use strict";
+var remote = require('remote');
+var dialog = remote.require("dialog");
 export default class FileUtils {
     static openSaveAs(saveAsFile) {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.setAttribute('nwsaveas', true);
-        var listener = function (evt) {
-            saveAsFile(this.value);
-            input.removeEventListener("change", listener, false);
+        var options = {
+            title: 'Save Markdown file',
+            filters: [
+                {name: 'Markdown', extensions: ['md', 'mdk', 'markdown']}
+            ]
         };
-        input.addEventListener("change", listener, false);
-        input.click();
+        dialog.showSaveDialog(null, options, function (filePath) {
+            saveAsFile(filePath);
+        });
     }
 
     static openFile(openAsFile) {
-        var input = document.createElement("input");
-        input.type = "file";
-        var listener = function (evt) {
-            openAsFile(this.value);
-            input.removeEventListener("change", listener, false);
+        var options = {
+            title: 'Open Markdown file',
+            filters: [
+                {name: 'Markdown', extensions: ['md', 'mdk', 'markdown']}
+            ]
         };
-        input.addEventListener("change", listener, false);
-        input.click();
+        dialog.showOpenDialog(null, options, function(filePath){
+            openAsFile(filePath);
+        });
     }
 }

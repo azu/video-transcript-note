@@ -79,5 +79,4 @@ class App extends React.Component {
     }
 }
 
-context.editorAction.changeReadonly(true);
 React.render(<App/>, document.body);

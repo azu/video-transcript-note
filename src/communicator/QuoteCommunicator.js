@@ -7,7 +7,6 @@ export default class QuoteCommunicator extends EventEmitter {
             this.emit("quote", dataURL);
         });
     }
-
     /*
         onQuoteImageRequest(function(done){
            var dataURL = "...";
