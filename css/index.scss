@@ -1,0 +1,17 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+@import "./components/App";
+@import "./components/PDFViewer";
+@import "./components/MarkdownEditor";
+@import "./components/MarkdownToolbar";
+@import "./components/MarkdownPreview";
+@import "./components/VideoTranscript";
+@import "./layout/Applayout";
