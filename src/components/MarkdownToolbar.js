@@ -1,6 +1,7 @@
 "use strict";
 import React from "react";
 import path from "path";
+import { formatVideoTime } from "../utils/time-formatter"
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
         var transcript = this.props.context.videoStore.getCurrentTranscript();
@@ -8,7 +9,7 @@ export default class MarkdownToolbar extends React.Component {
             var { context } = this.props;
             var videoName = context.videoStore.getVideoName();
             context.editorAction.saveImage({
-                fileName: `${videoName}-${currentTime}.png`,
+                fileName: `${videoName}-${formatVideoTime(currentTime)}.png`,
                 currentTime: currentTime,
                 dataURL: dataURL,
                 transcript: transcript
