@@ -156,7 +156,7 @@ export default class EditorStore extends Store {
     }
 
 
-    onSaveImage(fileName, dataURL) {
+    onSaveImage({fileName, dataURL, currentTime}) {
         if (this.getSaveImageDir() == null) {
             console.error("先にMarkdownを保存してください");
             return;
@@ -171,7 +171,10 @@ export default class EditorStore extends Store {
                 new Notification(appName, {
                     body: `Fail saving image: ${fileName}`
                 });
+                return;
             }
+
+            this.onQuote(`![${currentTime}](img/${fileName})`);
         });
     }
 

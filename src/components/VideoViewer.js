@@ -14,8 +14,9 @@ export default class VideoViewer extends React.Component {
         controller.start();
 
         this.props.quoteCommunicator.onQuoteImageRequest((done) => {
-            var dataURL = this.capture();
-            done(dataURL);
+            var dataURL = this.getCapturedImage();
+            var currentTime = this.getCurrentTime();
+            done(dataURL, currentTime);
         });
         setTimeout(()=> {
             this.onStart();
@@ -34,7 +35,11 @@ export default class VideoViewer extends React.Component {
         this.tracker.stop();
     }
 
-    capture() {
+    getCurrentTime() {
+        return this.video.currentTime;
+    }
+
+    getCapturedImage() {
         return captureVideo(this.video);
     }
 
