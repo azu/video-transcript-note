@@ -20,7 +20,8 @@ export default class VideoInputField extends React.Component {
         return <div className="VideoInputField">
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <label>動画URL</label>
-                <input type="text" className="VideoInputField-input" ref="videoURL"/>
+                <input type="text" className="VideoInputField-input" ref="videoURL"
+                    placeholder="file://path/to/video.mp4"/>
                 <input type="submit" value="Load"/>
             </form>
         </div>;
