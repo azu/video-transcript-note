@@ -9,7 +9,7 @@ import VideoViewer from "./components/VideoViewer"
 import VideoInputField from "./components/VideoInputField"
 import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
-
+import { formatVideoTime } from "./utils/time-formatter"
 var context = new MainContext();
 class App extends React.Component {
     constructor(props) {
@@ -45,6 +45,20 @@ class App extends React.Component {
         this.editorStore.removeAllChangeListeners();
     }
 
+
+    quote() {
+        var transcript = context.videoStore.getCurrentTranscript();
+        this.quoteCommunicator.quoteImage((dataURL, currentTime)=> {
+            var videoName = context.videoStore.getVideoName();
+            context.editorAction.saveImage({
+                fileName: `${videoName}-${formatVideoTime(currentTime)}.png`,
+                currentTime: currentTime,
+                dataURL: dataURL,
+                transcript: transcript
+            });
+        });
+    }
+
     render() {
         var onInputVideoURL = function (videoURL) {
             context.videoAction.loadVideoURL(videoURL);
@@ -59,9 +73,8 @@ class App extends React.Component {
         }
         return (
             <div className="App">
-                <VideoInputField handleSubmit={onInputVideoURL}/>
-
                 <div className="VideoViewer-container">
+                    <VideoInputField handleSubmit={onInputVideoURL}/>
                     <VideoViewer context={context}
                                  videoURL={this.videoStore.getVideoURL()}
                                  trackURL={this.videoStore.getTrackURL()}
@@ -70,7 +83,8 @@ class App extends React.Component {
                 </div>
                 <div className="MarkdownEditor-container">
                     <MarkdownToolbar context={context}
-                                     quoteCommunicator={this.quoteCommunicator}
+                                     quote={this.quote.bind(this)}
+
                         />
                     {MarkdownComponent}
                 </div>

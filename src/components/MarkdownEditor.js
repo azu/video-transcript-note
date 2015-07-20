@@ -32,6 +32,10 @@ export default class MarkdownEditor extends React.Component {
             }, 64);
         });
         this.extraKeys = {
+            "Cmd-T": ()=> {
+                editorAction.openFile();
+                return false;
+            },
             "Cmd-S": ()=> {
                 var filePath = this.editorStore.getFilePath();
                 editorAction.saveAsFile(filePath);
