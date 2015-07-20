@@ -69,7 +69,8 @@ class App extends React.Component {
         if (this.state.readonly) {
             MarkdownComponent = <MarkdownPreview context={context} source={this.editorStore.getText()}/>;
         } else {
-            MarkdownComponent = <MarkdownEditor context={context} source={this.editorStore.getText()}/>
+            MarkdownComponent = <MarkdownEditor context={context} source={this.editorStore.getText()}
+                                                quote={this.quote.bind(this)}/>
         }
         return (
             <div className="App">

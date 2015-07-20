@@ -33,7 +33,7 @@ export default class MarkdownEditor extends React.Component {
         });
         this.extraKeys = {
             "Cmd-T": ()=> {
-                editorAction.openFile();
+                this.props.quote();
                 return false;
             },
             "Cmd-S": ()=> {
