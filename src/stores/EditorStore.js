@@ -156,7 +156,7 @@ export default class EditorStore extends Store {
     }
 
 
-    onSaveImage({fileName, dataURL, currentTime}) {
+    onSaveImage({fileName, dataURL, currentTime, transcript}) {
         if (this.getSaveImageDir() == null) {
             console.error("先にMarkdownを保存してください");
             return;
@@ -173,8 +173,11 @@ export default class EditorStore extends Store {
                 });
                 return;
             }
-
-            this.onQuote(`![${currentTime}](img/${fileName})`);
+            var quoteText = transcript.trim().split("\n").join("\n> ");
+            this.onQuote(
+`![${currentTime}](img/${fileName})
+> ${quoteText}
+`);
         });
     }
 

@@ -9,7 +9,7 @@ export default class VideoStore extends Store {
         this.state = {
             currentTranscript: "",
             videoURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.mp4",
-            trackURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.en.vtt"
+            trackURL: "./videos/Kate Hudson - Beyond Responsive - Building a mobile web you're f_ing proud of _ JSConf US 2015-Y4ZTRztwLrg.vtt"
         };
         this.register(keys.updateTranscript, this.onUpdateTranscript);
         this.register(keys.loadVideoAndTrack, this.onLoadVideoAndTrack);
