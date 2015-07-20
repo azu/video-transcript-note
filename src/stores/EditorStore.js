@@ -2,6 +2,7 @@
 "use strict";
 import { Store } from "material-flux"
 import { keys } from "../actions/EditorAction"
+import { formatVideoTime } from "../utils/time-formatter"
 import mkdirp from "mkdirp"
 import path from "path"
 import fs from "fs";
@@ -175,7 +176,7 @@ export default class EditorStore extends Store {
             }
             var quoteText = transcript.trim().split("\n").join("\n> ");
             this.onQuote(
-`![${currentTime}](img/${fileName})
+`![${formatVideoTime(currentTime)}](img/${fileName})
 > ${quoteText}
 `);
         });
