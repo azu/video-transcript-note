@@ -16,7 +16,7 @@ export default class VideoStore extends Store {
     }
 
     getVideoName() {
-        return path.filename(this.state.videoURL);
+        return path.basename(this.state.videoURL, '.mp4');
     }
 
     getVideoURL() {
