@@ -3,10 +3,16 @@ import React from "react";
 import path from "path";
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
-        this.props.quoteCommunicator.quoteImage((dataURL)=> {
+        var transcript = this.props.context.videoStore.getCurrentTranscript();
+        this.props.quoteCommunicator.quoteImage((dataURL, currentTime)=> {
             var { context } = this.props;
             var videoName = context.videoStore.getVideoName();
-            context.editorAction.saveImage(videoName + ".png", dataURL);
+            context.editorAction.saveImage({
+                fileName: `${videoName}-${currentTime}.png`,
+                currentTime: currentTime,
+                dataURL: dataURL,
+                transcript: transcript
+            });
         });
     }
 

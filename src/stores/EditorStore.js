@@ -2,6 +2,7 @@
 "use strict";
 import { Store } from "material-flux"
 import { keys } from "../actions/EditorAction"
+import mkdirp from "mkdirp"
 import path from "path"
 import fs from "fs";
 function readFile(filePath, callback) {
@@ -76,10 +77,19 @@ export default class EditorStore extends Store {
     }
 
     getSaveDir() {
-        if (this.getSaveDir() == null) {
+        if (this.state.filePath == null) {
             return;
         }
         return path.dirname(this.state.filePath);
+    }
+
+    getSaveImageDir() {
+        if (this.getSaveDir() == null) {
+            return;
+        }
+        var imageDir = path.join(this.getSaveDir(), "img");
+        mkdirp.sync(imageDir);
+        return imageDir;
     }
 
     getFilePath() {
@@ -146,21 +156,28 @@ export default class EditorStore extends Store {
     }
 
 
-    onSaveImage(fileName, dataURL) {
-        if (this.getSaveDir() == null) {
-            console.log("先にMarkdownを保存してください");
+    onSaveImage({fileName, dataURL, currentTime, transcript}) {
+        if (this.getSaveImageDir() == null) {
+            console.error("先にMarkdownを保存してください");
             return;
         }
-        var buffer = new Buffer(dataURL, 'base64');
-        var filePath = path.resolve(this.getSaveDir(), fileName);
-        fs.writeFile(filePath, buffer, (error) => {
+        // http://stackoverflow.com/questions/6926016/nodejs-saving-a-base64-encoded-image-to-disk
+        var buffer = new Buffer(dataURL.replace(/^data:image\/png;base64,/, ""), 'base64');
+        var filePath = path.resolve(this.getSaveImageDir(), fileName);
+        fs.writeFile(filePath, buffer, "base64", (error) => {
             var appName = require("../../package.json").name;
             if (error) {
                 console.error(error);
                 new Notification(appName, {
-                    body: `Fail saving ${fileName}`
+                    body: `Fail saving image: ${fileName}`
                 });
+                return;
             }
+            var quoteText = transcript.trim().split("\n").join("\n> ");
+            this.onQuote(
+`![${currentTime}](img/${fileName})
+> ${quoteText}
+`);
         });
     }
 

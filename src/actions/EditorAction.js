@@ -29,8 +29,8 @@ export default class EditorAction extends Action {
         }
     }
 
-    saveImage(fileName, dataURL) {
-        this.dispatch(keys.saveImage, fileName, dataURL)
+    saveImage(data) {
+        this.dispatch(keys.saveImage, data)
     }
 
     createNewFile() {

@@ -37,6 +37,7 @@
     "lodash.debounce": "^3.1.0",
     "markdown-extensions": "^1.1.0",
     "material-flux": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "react": "^0.13.2",
     "react-code-mirror": "^3.0.4",
     "react-remarkable": "^1.1.1",
