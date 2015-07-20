@@ -1,5 +1,6 @@
 // LICENSE : MIT
 "use strict";
+var markdownExtensions = require('markdown-extensions');
 var remote = require('remote');
 var dialog = remote.require("dialog");
 export default class FileUtils {
@@ -7,11 +8,13 @@ export default class FileUtils {
         var options = {
             title: 'Save Markdown file',
             filters: [
-                {name: 'Markdown', extensions: ['md', 'mdk', 'markdown']}
+                {name: 'Markdown', extensions: markdownExtensions}
             ]
         };
         dialog.showSaveDialog(null, options, function (filePath) {
-            saveAsFile(filePath);
+            if(filePath) {
+                saveAsFile(filePath);
+            }
         });
     }
 
@@ -19,11 +22,13 @@ export default class FileUtils {
         var options = {
             title: 'Open Markdown file',
             filters: [
-                {name: 'Markdown', extensions: ['md', 'mdk', 'markdown']}
+                {name: 'Markdown', extensions: markdownExtensions}
             ]
         };
         dialog.showOpenDialog(null, options, function(filePath){
-            openAsFile(filePath);
+            if(filePath) {
+                openAsFile(filePath);
+            }
         });
     }
 }
