@@ -1,0 +1,19 @@
+sudo: false
+language: node_js
+node_js:
+- '0.12'
+after_success:
+- test ${TRAVIS_TAG} && npm run dist
+cache:
+  directories:
+    - node_modules
+deploy:
+  provider: releases
+  api_key:
+    secure: spDpSqaquXX3wgxjnB8gySH1ydtHFcqxgyErDjYd1kCHZlsxiiihe9+SqTXocVrkSm0x4D6G5i3Ia2N8Pscrv+4heSVsZ1koXJIaN5tzWkn5py5iYy14DKLEf9N8LqQ3Yenr0gGnweymErmLsdIZVeFaXNmGCdl7oyyvQkFcAyaiQXVAtlMwhhAUkqcmzQ8pZOhCQtzPX1zAjzousPCnKJwSGbrP8iNHumhbu9RoxHTn+JbpW9IlCQnwMqeN/2qN51cGU3YT/G3qLhw3RiJMVGUtthPfym3OYGqCE5LPFjuan5z13ruD49K5LhKzFwRPojhZCtNymQ1KfezXk+Ynm2R0JYPCSBH2f1w9f9GvzJ3RYwinr19zTCzmsAIf5FP8qiayz875jIalo53/fWA05//le1NxrpR5la5OTnGpymQ9VOEo7C4qVKdDs9WYSIV4ywJFG8xYEHRqKfZ2lzH6MZZEob0h343rrBO7PKjiXVhUQESyJBTO27RWbcdpqBIYkNwc18aLU/48xgi8NKmHX9S3+bB2BelPI9K24FOSRRRBf942ZeLIOeIKFje6q0A9Cz0z9EkVE9osampJv2RRL14bAiDGrtIWx9tG/ET8hhr+xqSGEApHPJLah7q/jlFgKrq7Yg6bzz7e1mtIo0I09pVKieojMUPxkHARge8mrmw=
+  file:
+  - video-transcript-note-darwin-x64.zip
+  - video-transcript-note-win32-x64.zip
+  on:
+    repo: azu/video-transcript-note
+    tags: true
