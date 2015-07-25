@@ -32,7 +32,7 @@
     "array.from": "^0.2.0",
     "babel": "^5.6.14",
     "codemirror": "^5.2.0",
-    "electron-template-menu": "^1.0.2",
+    "electron-template-menu": "^1.0.3",
     "font-awesome": "^4.3.0",
     "kantan-ej-dict": "^1.0.1",
     "lodash.debounce": "^3.1.0",

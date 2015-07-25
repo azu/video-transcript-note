@@ -8,7 +8,7 @@ function launchRegisterView() {
     mainWindow.loadUrl('file://' + __dirname + '/index.html');
     mainWindow.webContents.on('did-finish-load', function () {
     });
-    mainWindow.maximize()
+    mainWindow.maximize();
     mainWindow.on('closed', function () {
         mainWindow = null;
         app.quit();
