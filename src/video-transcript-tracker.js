@@ -1,7 +1,14 @@
 "use strict";
 import {EventEmitter} from "events"
 /**
- * VideoTranscriptTrackerはTranscriptの変更を管理するクラスです。
+ * VideoTranscriptTracker handle "cueChange" of <track> element.
+ *
+ * @example
+ * var tracker = new VideoTranscriptTracker(video);
+ * // play video, show next transcript, then call `onChange` handler.
+ * tracker.onChange((text, track) => {
+ *
+ * });
  */
 export default class VideoTranscriptTracker extends EventEmitter {
     static get eventTypes() {

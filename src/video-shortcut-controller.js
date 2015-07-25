@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-export default class VideoController {
+export default class VideoShortcutController {
     constructor(shortCutTarget, video) {
         this.video = video;
         this.shortCutTarget = shortCutTarget;

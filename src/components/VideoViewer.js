@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import VideoController from "../video-controller";
+import VideoShortcutController from "../video-shortcut-controller";
 import VideoPrefetcher from "../video-prefetcher";
 import VideoTranscriptTracker from "../video-transcript-tracker.js";
 import {captureVideo} from "../utils/video-capture";
@@ -10,7 +10,7 @@ export default class VideoViewer extends React.Component {
     componentDidMount() {
         this.video = React.findDOMNode(this.refs.video);
         var container = React.findDOMNode(this);
-        var controller = new VideoController(container, this.video);
+        var controller = new VideoShortcutController(container, this.video);
         controller.start();
 
         this.props.quoteCommunicator.onQuoteImageRequest((done) => {
