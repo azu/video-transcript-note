@@ -44,14 +44,20 @@ export default class VideoViewer extends React.Component {
     }
 
     onStart() {
+        if(this.props.videoURL == null) {
+            return;
+        }
         var videoAction = this.props.context.videoAction;
         this.prefetcher = new VideoPrefetcher(this.video);
-        this.prefetcher.onProgress(function (error, event) {
+        this.prefetcher.onProgress(function (event) {
             var percentComplete = event.loaded / event.total;
             console.log((percentComplete * 100) + "%");
         });
-        this.prefetcher.onLoad(function (error, event) {
+        this.prefetcher.onLoad(function (event) {
             console.log("loaded", event);
+        });
+        this.prefetcher.on("error", function (error) {
+            console.error(error, error.stack);
         });
         this.prefetcher.start();
 
@@ -74,6 +80,9 @@ export default class VideoViewer extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.videoURL == null) {
+            return false;
+        }
         return this.props.videoURL !== nextProps.videoURL;
     }
 
