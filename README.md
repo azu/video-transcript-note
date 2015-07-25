@@ -8,10 +8,17 @@ This is electron app.
 
 Download from latest release.
 
-## Usage
+## Feature
 
-- [ ] Write usage instructions
+![screenshot](http://monosnap.com/image/0B7VE8sHjR7ZojNUWDs0u5z8ZZCwRl.png)
 
+- HTML5 Video player
+    - + keyboard shortcut
+- Ruby Translate transcript
+    - English to 日本語
+- Markdown Note
+- Quote from Video and Transcript.
+    - `Cmd+T`/`Ctrl+T`
 
 ## Contributing
 
