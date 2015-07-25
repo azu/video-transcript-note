@@ -1,27 +1,34 @@
 "use strict";
+import {EventEmitter} from "events"
 /**
  * VideoTranscriptTrackerはTranscriptの変更を管理するクラスです。
  */
-export default class VideoTranscriptTracker {
+export default class VideoTranscriptTracker extends EventEmitter {
+    static get eventTypes() {
+        return {
+            "enable": "enable",
+            "disable": "disable",
+            "change": "change"
+        }
+    }
+
     constructor(video) {
+        super();
         this.video = video;
-        this.handleCueChangeCallback = null;
-        this.handleEnableCallback = null;
-        this.handleDisableCallback = null;
         this.handleCueChange = this._handleCueChange.bind(this);
         this.handleChange = this._handleChange.bind(this);
     }
 
     onChange(callback) {
-        this.handleCueChangeCallback = callback;
+        this.on(VideoTranscriptTracker.eventTypes.change, callback);
     }
 
     onEnable(callback) {
-        this.handleEnableCallback = callback;
+        this.on(VideoTranscriptTracker.eventTypes.enable, callback);
     }
 
     onDisable(callback) {
-        this.handleDisableCallback = callback;
+        this.on(VideoTranscriptTracker.eventTypes.disable, callback);
     }
 
     _handleChange() {
@@ -32,13 +39,9 @@ export default class VideoTranscriptTracker {
             return track.mode !== "disabled";
         });
         if (availableTracks.length === 0) {
-            if (this.handleDisableCallback) {
-                this.handleDisableCallback();
-            }
+            this.emit(VideoTranscriptTracker.eventTypes.disable);
         } else {
-            if (this.handleEnableCallback) {
-                this.handleEnableCallback(availableTracks);
-            }
+            this.emit(VideoTranscriptTracker.eventTypes.enable);
         }
     }
 
@@ -59,12 +62,13 @@ export default class VideoTranscriptTracker {
 
     _handleCueChange(event) {
         var myTrack = event.target;
-        var myCues = myTrack.activeCues;      // activeCues is an array of current cues.
-        if (myCues.length > 0) {
-            Array.from(myCues, cue => {
-                this.handleCueChangeCallback(cue.text, myTrack)
-            }, this);
+        var myCues = myTrack.activeCues;// activeCues is an array of current cues.
+        if (myCues.length === 0) {
+            return;
         }
+        Array.from(myCues, cue => {
+            this.emit(VideoTranscriptTracker.eventTypes.change, cue.text, myTrack);
+        }, this);
     }
 
     stop() {
