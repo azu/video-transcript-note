@@ -44,7 +44,8 @@
     "react-code-mirror": "^3.0.4",
     "react-remarkable": "^1.1.1",
     "seco": "^0.1.1",
-    "srt2vtt": "^1.3.0"
+    "srt2vtt": "^1.3.0",
+    "video-transcript-tracker": "^1.0.2"
   },
   "devDependencies": {
     "electron-prebuilt": "0.30.0",
