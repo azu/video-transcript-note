@@ -1,4 +1,4 @@
-# video-transcript-note
+# video-transcript-note [![Build Status](https://travis-ci.org/azu/video-transcript-note.svg?branch=master)](https://travis-ci.org/azu/video-transcript-note)
 
 HTML5 Video viewer + Ruby Translate transcript + Markdown Note.
 
