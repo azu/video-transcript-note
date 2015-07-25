@@ -4,6 +4,8 @@ export default class VideoController {
     constructor(shortCutTarget, video) {
         this.video = video;
         this.shortCutTarget = shortCutTarget;
+        this.volumeChangeRate = 0.1;
+        this.positionChangeRate = 10;
         this.handleOnKeyDown = (event) => {
             this.onKeyCode(event, event.keyCode)
         }
@@ -25,19 +27,19 @@ export default class VideoController {
                 break;
             case 38:// UP
                 event.preventDefault();
-                this.setVolume(0.1, 'up');
+                this.setVolume(this.volumeChangeRate, 'up');
                 break;
             case 40:// Down
                 event.preventDefault();
-                this.setVolume(0.1);
+                this.setVolume(this.volumeChangeRate, 'down');
                 break;
             case 39:// Right
                 event.preventDefault();
-                this.setPosition(10, 'forward');
+                this.setPosition(this.positionChangeRate, 'forward');
                 break;
             case 37:// Left
                 event.preventDefault();
-                this.setPosition(10);
+                this.setPosition(this.positionChangeRate, 'backward');
                 break;
             case 83:
                 event.preventDefault();
@@ -68,9 +70,9 @@ export default class VideoController {
 
     setVolume(value, type) {
         var vol = this.video.volume;
-        if (type == 'up') {
+        if (type === 'up') {
             vol += value;
-        } else {
+        } else if (type === 'down') {
             vol -= value;
         }
         if (vol >= 0 && vol <= 1) {
@@ -83,9 +85,9 @@ export default class VideoController {
     setPosition(value, type) {
         var time = this.video.currentTime;
         var length = this.video.duration.toFixed(1);
-        if (type == 'forward') {
+        if (type === 'forward') {
             time += value;
-        } else {
+        } else if (type === 'backward') {
             time -= value;
         }
         if (time >= 0 && time <= length) {
@@ -96,7 +98,7 @@ export default class VideoController {
     }
 
     showHideSubs() {
-        if (this.video.textTracks[0].mode == 'showing') {
+        if (this.video.textTracks[0].mode === 'showing') {
             this.video.textTracks[0].mode = 'hidden';
         } else {
             this.video.textTracks[0].mode = 'showing';
