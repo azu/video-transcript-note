@@ -8,7 +8,7 @@ export default class VideoTranscriptTracker extends EventEmitter {
         return {
             "enable": "enable",
             "disable": "disable",
-            "change": "change"
+            "cueChange": "cueChange"
         }
     }
 
@@ -20,7 +20,7 @@ export default class VideoTranscriptTracker extends EventEmitter {
     }
 
     onChange(callback) {
-        this.on(VideoTranscriptTracker.eventTypes.change, callback);
+        this.on(VideoTranscriptTracker.eventTypes.cueChange, callback);
     }
 
     onEnable(callback) {
@@ -67,7 +67,7 @@ export default class VideoTranscriptTracker extends EventEmitter {
             return;
         }
         Array.from(myCues, cue => {
-            this.emit(VideoTranscriptTracker.eventTypes.change, cue.text, myTrack);
+            this.emit(VideoTranscriptTracker.eventTypes.cueChange, cue.text, myTrack);
         }, this);
     }
 
