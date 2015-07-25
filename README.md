@@ -2,11 +2,11 @@
 
 HTML5 Video viewer + Ruby Translate transcript + Markdown Note.
 
-This is electron app.
+This app build top on electron.
 
 ## Installation
 
-Download from latest release.
+Download from [latest binary](https://github.com/azu/video-transcript-note/releases/latest).
 
 ## Feature
 
