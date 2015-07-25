@@ -21,5 +21,6 @@ app.on('window-all-closed', function () {
 });
 
 app.on('ready', function () {
+    require("electron-template-menu")();
     launchRegisterView();
 });
