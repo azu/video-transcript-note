@@ -31,24 +31,28 @@ export default class MarkdownEditor extends React.Component {
                 scrollToBottom(this.editor);
             }, 64);
         });
+        var quote = ()=> {
+            this.props.quote();
+        };
+        var saveFile = ()=> {
+            var filePath = this.editorStore.getFilePath();
+            editorAction.saveAsFile(filePath);
+        };
+        var createNewFile = ()=> {
+            editorAction.createNewFile();
+        };
+        var openFile = ()=> {
+            editorAction.openFile();
+        };
         this.extraKeys = {
-            "Cmd-T": ()=> {
-                this.props.quote();
-                return false;
-            },
-            "Cmd-S": ()=> {
-                var filePath = this.editorStore.getFilePath();
-                editorAction.saveAsFile(filePath);
-                return false;
-            },
-            "Cmd-N": ()=> {
-                editorAction.createNewFile();
-                return false;
-            },
-            "Cmd-O": ()=> {
-                editorAction.openFile();
-                return false;
-            },
+            "Cmd-T": quote,
+            "Ctrl-T": quote,
+            "Cmd-S": saveFile,
+            "Ctrl-S": saveFile,
+            "Cmd-N": createNewFile,
+            "Ctrl-N": createNewFile,
+            "Cmd-O": openFile,
+            "Ctrl-O": openFile,
             "Enter": "newlineAndIndentContinueMarkdownList"
         };
         this.debounceOnChange = this._codeMirrorOnChange.bind(this);
