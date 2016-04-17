@@ -7,12 +7,12 @@ export default class MakeReadOnlyUseCase extends UseCase {
     }
 
     /**
-     * @param {boolean} readOnly
+     * @param {boolean} readonly
      */
-    execute(readOnly) {
+    execute(readonly) {
         this.dispatch({
             type: this.name,
-            readOnly
+            readonly
         })
     }
 }

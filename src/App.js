@@ -17,21 +17,10 @@ export default class App extends React.Component {
         this.editorStore = context.editorStore;
         this.videoStore = context.videoStore;
         this.quoteCommunicator = new QuoteCommunicator();
-        this.state = {
-            readonly: this.editorStore.isReadonly(),
-            currentTranscript: this.videoStore.getCurrentTranscript()
-        };
     }
 
     componentDidMount() {
-        this.editorStore.onChange(this._editorChange.bind(this));
         this.videoStore.onChange(this._videoOnChange.bind(this));
-    }
-
-    _editorChange() {
-        this.setState({
-            readonly: this.editorStore.isReadonly()
-        });
     }
 
     _videoOnChange() {
@@ -60,16 +49,24 @@ export default class App extends React.Component {
     }
 
     render() {
+        /**
+         * @type {EditorState}
+         */
+        const editorState = this.props.EditorStore;
+        console.log(editorState);
+        this.editorStore = context.editorStore;
+        this.videoStore = context.videoStore;
+        this.quoteCommunicator = new QuoteCommunicator();
         var onInputVideoURL = function (videoURL) {
             context.videoAction.loadVideoURL(videoURL);
         };
 
         // toggle by MarkdownToolbar
         var MarkdownComponent;
-        if (this.state.readonly) {
-            MarkdownComponent = <MarkdownPreview context={context} source={this.editorStore.getText()}/>;
+        if (editorState.readonly) {
+            MarkdownComponent = <MarkdownPreview context={context} source={editorState.text}/>;
         } else {
-            MarkdownComponent = <MarkdownEditor context={context} source={this.editorStore.getText()}
+            MarkdownComponent = <MarkdownEditor context={context} source={editorState.text}
                                                 quote={this.quote.bind(this)}/>
         }
         return (
@@ -80,7 +77,7 @@ export default class App extends React.Component {
                                  videoURL={this.videoStore.getVideoURL()}
                                  trackURL={this.videoStore.getTrackURL()}
                                  quoteCommunicator={this.quoteCommunicator}/>
-                    <VideoTranscript transcript={this.state.currentTranscript}/>
+                    <VideoTranscript transcript={editorState.currentTranscript}/>
                 </div>
                 <div className="MarkdownEditor-container">
                     <MarkdownToolbar context={context}

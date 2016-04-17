@@ -17,33 +17,48 @@ const appContext = new AppContext({
     dispatcher,
     store: appStoreGroup
 });
-if (process.env.NODE_ENV === `development`) {
-    const logMap = {};
-    dispatcher.onWillExecuteEachUseCase(useCase => {
-        const startTimeStamp = performance.now();
-        console.groupCollapsed(useCase.name, startTimeStamp);
-        logMap[useCase.name] = startTimeStamp;
-        console.log(`${useCase.name} will execute`);
-    });
-    dispatcher.onDispatch(payload => {
-        ContextLogger.logDispatch(payload);
-    });
-    appContext.onChange((stores) => {
-        ContextLogger.logOnChange(stores);
-    });
-    dispatcher.onDidExecuteEachUseCase(useCase => {
-        const startTimeStamp = logMap[useCase.name];
-        const takenTime = performance.now() - startTimeStamp;
-        console.log(`${useCase.name} did executed`);
-        console.info("Take time(ms): " + takenTime);
-        console.groupEnd(useCase.name);
-    });
-}
+const logMap = {};
+dispatcher.onWillExecuteEachUseCase(useCase => {
+    const startTimeStamp = performance.now();
+    console.groupCollapsed(useCase.name, startTimeStamp);
+    logMap[useCase.name] = startTimeStamp;
+    console.log(`${useCase.name} will execute`);
+});
+dispatcher.onDispatch(payload => {
+    ContextLogger.logDispatch(payload);
+});
+appContext.onChange((stores) => {
+    ContextLogger.logOnChange(stores);
+});
+dispatcher.onDidExecuteEachUseCase(useCase => {
+    const startTimeStamp = logMap[useCase.name];
+    const takenTime = performance.now() - startTimeStamp;
+    console.log(`${useCase.name} did executed`);
+    console.info("Take time(ms): " + takenTime);
+    console.groupEnd(useCase.name);
+});
 // Singleton
 AppContextLocator.context = appContext;
 export default class BootStrap extends React.Component {
+    constructor(...args) {
+        super(...args);
+        this.state = AppContextLocator.context.getState();
+    }
+
+    componentDidMount() {
+        const context = AppContextLocator.context;
+        // when change store, update component
+        const onChangeHandler = () => {
+            return requestAnimationFrame(() => {
+                console.log(context.getState());
+                this.setState(context.getState());
+            })
+        };
+        context.onChange(onChangeHandler);
+    }
+
     render() {
-        return <App appContext={appContext}/>;
+        return <App {...this.state}/>;
     }
 }
 React.render(<BootStrap />, document.body);

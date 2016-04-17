@@ -1,10 +1,8 @@
 // LICENSE : MIT
 "use strict";
 import StoreGroup from "../framework/UILayer/StoreGroup";
-import colorMixerRepository from "../infra/ColorMixerRepository";
-import ColorStore from "./ColorStore";
-import ColorHistoryStore from "./ColorHistoryStore";
-import WallColorStore from "./WallColorStore";
+import EditorStore from "./editor/EditorStore";
+import editorRepository from "../infra/EditorRepository";
 export default class AppStoreGroup {
     /**
      * @param {Dispatcher} dispatcher
@@ -23,9 +21,7 @@ export default class AppStoreGroup {
      */
     static create() {
         return [
-            new ColorStore({colorMixerRepository}),
-            new ColorHistoryStore({colorMixerRepository}),
-            new WallColorStore()
+            new EditorStore({editorRepository})
         ];
     }
 }

@@ -8,18 +8,22 @@ export default class SaveAsFileUseCase extends UseCase {
     }
 
     execute(filePath) {
-        if (filePath == null) {
-            FileUtils.openSaveAs(filePath => {
+        return new Promise(resolve => {
+            if (filePath == null) {
+                FileUtils.openSaveAs(filePath => {
+                    return resolve(filePath);
+                });
+                return resolve(filePath);
+            }
+            return resolve(filePath);
+        }).then(filePath => {
+            const editor = this.editorRepository.lastUsed();
+            return editor.saveAsFile(filePath, editor.text).then(() => {
                 this.dispatch({
-                    type: SaveAsFileUseCase.name,
+                    type: this.name,
                     filePath
                 });
             });
-        } else {
-            this.dispatch({
-                type: SaveAsFileUseCase.name,
-                filePath
-            });
-        }
+        });
     }
 }

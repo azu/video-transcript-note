@@ -9,7 +9,7 @@ export default class AddQuoteTextUseCase extends UseCase {
     execute(text) {
         this.dispatch({
             type: this.name,
-            text
+            quoteText: text
         })
     }
 }

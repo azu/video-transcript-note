@@ -6,6 +6,7 @@ export default class SaveEditorTextToStorageUseCase extends UseCase {
         return new this();
     }
 
+    // onSave
     execute(text) {
         this.dispatch({
             type: this.name,

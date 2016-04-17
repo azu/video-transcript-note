@@ -14,6 +14,8 @@ require("codemirror/mode/meta.js");
 require("codemirror/addon/edit/continuelist.js");
 
 
+import AppContextLocator from "../AppContextLocator";
+import SaveEditorTextToStorageUseCase from "../js/UseCase/editor/SaveEditorTextToStorageUseCase";
 function scrollToBottom(cm) {
     var line = cm.lineCount();
     cm.setCursor({line: line, ch: 0});
@@ -69,13 +71,13 @@ export default class MarkdownEditor extends React.Component {
 
     _codeMirrorOnChange(result) {
         var text = result.target.value;
-        var action = this.props.context.editorAction;
-        action.save(text);
+        AppContextLocator.context.useCase(SaveEditorTextToStorageUseCase.create()).execute(text);
     }
 
     render() {
+        // TODO: value ?
         return <div className="MarkdownEditor">
-            <ReactCodeMirror value={this.props.source}
+            <ReactCodeMirror defaultValue={this.props.source}
                              mode="gfm"
                              lineWrapping="true"
                              lineNumbers="true"
