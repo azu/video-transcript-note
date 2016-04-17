@@ -100,25 +100,7 @@ export default class EditorStore extends Store {
     getFilePath() {
         return this.state.filePath;
     }
-
-    getText() {
-        return this.state.text;
-    }
-
-    getQuoteText() {
-        return this.state.quoteText;
-    }
-
-    isReadonly() {
-        return this.state.readonly;
-    }
-
-    onCreateNewFile() {
-        this.setState({
-            type: "onCreateNewFile"
-        });
-    }
-
+    
     onSaveImage({fileName, dataURL, currentTime, transcript}) {
         if (this.getSaveImageDir() == null) {
             console.error("先にMarkdownを保存してください");

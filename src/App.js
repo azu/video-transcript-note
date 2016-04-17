@@ -9,7 +9,7 @@ import VideoViewer from "./components/VideoViewer"
 import VideoInputField from "./components/VideoInputField"
 import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
-import { formatVideoTime } from "./utils/time-formatter"
+import {formatVideoTime} from "./utils/time-formatter"
 var context = new MainContext();
 export default class App extends React.Component {
     constructor(props) {
@@ -53,7 +53,6 @@ export default class App extends React.Component {
          * @type {EditorState}
          */
         const editorState = this.props.EditorStore;
-        console.log(editorState);
         this.editorStore = context.editorStore;
         this.videoStore = context.videoStore;
         this.quoteCommunicator = new QuoteCommunicator();
@@ -64,9 +63,10 @@ export default class App extends React.Component {
         // toggle by MarkdownToolbar
         var MarkdownComponent;
         if (editorState.readonly) {
-            MarkdownComponent = <MarkdownPreview context={context} source={editorState.text}/>;
+            MarkdownComponent = <MarkdownPreview context={context} source={editorState.text}
+                                                 readonly={editorState.readonly}/>;
         } else {
-            MarkdownComponent = <MarkdownEditor context={context} source={editorState.text}
+            MarkdownComponent = <MarkdownEditor context={context} editorState={editorState}
                                                 quote={this.quote.bind(this)}/>
         }
         return (
@@ -83,7 +83,7 @@ export default class App extends React.Component {
                     <MarkdownToolbar context={context}
                                      quote={this.quote.bind(this)}
 
-                        />
+                    />
                     {MarkdownComponent}
                 </div>
             </div>

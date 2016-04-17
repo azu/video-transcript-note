@@ -14,8 +14,12 @@ require("codemirror/mode/meta.js");
 require("codemirror/addon/edit/continuelist.js");
 
 
+import EditorState from "../js/store/editor/EditorState";
 import AppContextLocator from "../AppContextLocator";
 import SaveEditorTextToStorageUseCase from "../js/UseCase/editor/SaveEditorTextToStorageUseCase";
+import SaveAsFileUseCase from "../js/UseCase/editor/SaveAsFileUseCase";
+import CreateNewFileUseCase from "../js/UseCase/editor/CreateNewFileUseCase";
+import OpenTextFileUseCase from "../js/UseCase/editor/OpenTextFileUseCase";
 function scrollToBottom(cm) {
     var line = cm.lineCount();
     cm.setCursor({line: line, ch: 0});
@@ -26,25 +30,29 @@ function scrollToBottom(cm) {
 export default class MarkdownEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.editorStore = this.props.context.editorStore;
-        var editorAction = this.props.context.editorAction;
-        this.editorStore.on("quote", (quoteText)=> {
-            setTimeout(()=> {
-                scrollToBottom(this.editor);
-            }, 64);
-        });
+        /**
+         * @type {EditorStore}
+         */
+        const editorState = this.props.editorState;
+        // TODO: don't work
+        // need MMVM messenger pattern?
+        // this.editorStore.on("quote", (quoteText)=> {
+        //     setTimeout(()=> {
+        //         scrollToBottom(this.editor);
+        //     }, 64);
+        // });
         var quote = ()=> {
             this.props.quote();
         };
         var saveFile = ()=> {
-            var filePath = this.editorStore.getFilePath();
-            editorAction.saveAsFile(filePath);
+            const filePath = editorState.filePath;
+            AppContextLocator.context.useCase(SaveAsFileUseCase.create()).execute(filePath)
         };
         var createNewFile = ()=> {
-            editorAction.createNewFile();
+            AppContextLocator.context.useCase(CreateNewFileUseCase.create()).execute();
         };
         var openFile = ()=> {
-            editorAction.openFile();
+            AppContextLocator.context.useCase(OpenTextFileUseCase.create()).execute();
         };
         this.extraKeys = {
             "Cmd-T": quote,
@@ -76,8 +84,9 @@ export default class MarkdownEditor extends React.Component {
 
     render() {
         // TODO: value ?
+        const editorState = this.props.editorState;
         return <div className="MarkdownEditor">
-            <ReactCodeMirror defaultValue={this.props.source}
+            <ReactCodeMirror defaultValue={editorState.text}
                              mode="gfm"
                              lineWrapping="true"
                              lineNumbers="true"
@@ -87,3 +96,6 @@ export default class MarkdownEditor extends React.Component {
 
     }
 }
+MarkdownEditor.propTypes = {
+    editorState: React.PropTypes.instanceOf(EditorState).isRequired
+};

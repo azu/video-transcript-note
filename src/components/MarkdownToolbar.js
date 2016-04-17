@@ -28,8 +28,8 @@ export default class MarkdownToolbar extends React.Component {
     }
 
     render() {
-        var { editorStore } = this.props.context;
-        if (editorStore.isReadonly()) {
+        const readonly = this.props.readonly;
+        if (readonly) {
             return (
                 <div className="MemoToolbar">
                     <button onClick={this.onChangeMode.bind(this,false)}><span className="fa fa-pencil">Editor</span>
