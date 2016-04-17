@@ -1,4 +1,4 @@
 // LICENSE : MIT
 "use strict";
 require("babel/register");
-require("./src/App");
+require("./src/BootStrap");

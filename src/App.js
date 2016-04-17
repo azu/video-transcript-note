@@ -11,7 +11,7 @@ import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
 import { formatVideoTime } from "./utils/time-formatter"
 var context = new MainContext();
-class App extends React.Component {
+export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.editorStore = context.editorStore;
@@ -93,5 +93,3 @@ class App extends React.Component {
         )
     }
 }
-
-React.render(<App/>, document.body);
