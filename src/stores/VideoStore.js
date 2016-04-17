@@ -1,19 +1,24 @@
 // LICENSE : MIT
 "use strict";
-import { Store } from "material-flux"
-import { keys } from "../actions/VideoAction"
-var path = require("path");
+const path = require("path");
+import {Store} from "material-flux"
+import {keys} from "../actions/VideoAction"
+import VideoState from "./video/VideoState";
 export default class VideoStore extends Store {
     constructor(context) {
         super(context);
-        this.state = {
-            currentTranscript: "",
-            videoURL: null,
-            trackURL: null
-        };
+        this.state = new VideoState();
         this.register(keys.updateTranscript, this.onUpdateTranscript);
         this.register(keys.loadVideoAndTrack, this.onLoadVideoAndTrack);
     }
+
+    /**
+     * @param {DispatcherPayload} payload
+     */
+    setState(payload) {
+        this.state = this.state.reduce(payload);
+        this.emit("change");
+    };
 
     getVideoName() {
         return path.basename(this.state.videoURL, '.mp4');
@@ -33,6 +38,7 @@ export default class VideoStore extends Store {
 
     onLoadVideoAndTrack(videoURL, trackURL) {
         this.setState({
+            type: "onLoadVideoAndTrack",
             videoURL: videoURL,
             trackURL: trackURL
         });
@@ -40,7 +46,8 @@ export default class VideoStore extends Store {
 
     onUpdateTranscript(text) {
         this.setState({
-            currentTranscript: text
+            type: "onUpdateTranscript",
+            text
         });
     }
 }
