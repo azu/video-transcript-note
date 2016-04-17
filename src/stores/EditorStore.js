@@ -1,11 +1,12 @@
 // LICENSE : MIT
 "use strict";
-import { Store } from "material-flux"
-import { keys } from "../actions/EditorAction"
-import { formatVideoTime } from "../utils/time-formatter"
+import {Store} from "material-flux"
+import {keys} from "../actions/EditorAction"
+import {formatVideoTime} from "../utils/time-formatter"
 import mkdirp from "mkdirp"
 import path from "path"
 import fs from "fs";
+import EditorState from "./editor/EditorState";
 function readFile(filePath, callback) {
     var urlReg = /(^https?:|^file:)/;
     if (urlReg.test(filePath) || typeof fs.readFile === "undefined") {
@@ -25,12 +26,7 @@ function readFile(filePath, callback) {
 export default class EditorStore extends Store {
     constructor(context) {
         super(context);
-        this.state = {
-            filePath: null,
-            text: "",
-            quoteText: "",
-            readonly: false
-        };
+        this.state = new EditorState();
         this.register(keys.quote, this.onQuote);
         this.register(keys.createNewFile, this.onCreateNewFile);
         this.register(keys.save, this.onSave);
@@ -57,6 +53,14 @@ export default class EditorStore extends Store {
             }
         });
     }
+
+    /**
+     * @param {DispatcherPayload} payload
+     */
+    setState(payload) {
+        this.state = this.state.reduce(payload);
+        this.emit("change");
+    };
 
     _onAutoSave() {
         // disable when readonly mode
@@ -111,9 +115,7 @@ export default class EditorStore extends Store {
 
     onCreateNewFile() {
         this.setState({
-            filePath: null,
-            text: "",
-            quoteText: ""
+            type: "onCreateNewFile"
         });
     }
 
@@ -131,6 +133,7 @@ export default class EditorStore extends Store {
                 return;
             }
             this.setState({
+                type: "onOpenFile",
                 text: String(data),
                 filePath: filePath
             });
@@ -151,6 +154,7 @@ export default class EditorStore extends Store {
                 return;
             }
             this.setState({
+                type: "onSaveAsFile",
                 filePath: filePath
             });
         });
@@ -176,7 +180,7 @@ export default class EditorStore extends Store {
             }
             var quoteText = transcript.trim().split("\n").join("\n> ");
             this.onQuote(
-`![${formatVideoTime(currentTime)}](img/${fileName})
+                `![${formatVideoTime(currentTime)}](img/${fileName})
 > ${quoteText}
 `);
         });
@@ -187,6 +191,7 @@ export default class EditorStore extends Store {
             return;
         }
         this.setState({
+            type: "onSave",
             text: text
         });
     }
@@ -196,7 +201,7 @@ export default class EditorStore extends Store {
             return;
         }
         this.setState({
-            text: this.state.text + "\n" + text,
+            type: "onQuote",
             quoteText: text
         });
 
@@ -208,6 +213,7 @@ export default class EditorStore extends Store {
             return;
         }
         this.setState({
+            type: "onReadonly",
             readonly: isReadonly
         });
     }
