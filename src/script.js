@@ -1,9 +1,9 @@
 // LICENSE : MIT
 "use strict";
 var fs = require("fs");
-import VideoController from "./video-controller";
-import VideoPrefetcher from "./video-prefetcher";
-import VideoTranscriptTracker from "./video-transcript-tracker.js";
+const VideoController = require("./video-shortcut-controller");
+const VideoPrefetcher = require("./video-prefetcher");
+import VideoTranscriptTracker from "video-transcript-tracker";
 import {rubyTranslate} from "./ruby-translator/ruby-translator"
 var videoElement = document.querySelector('#player');
 var controller = new VideoController(document.body, videoElement);

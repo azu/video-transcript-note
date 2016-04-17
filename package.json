@@ -45,6 +45,9 @@
     "react-remarkable": "^1.1.1",
     "seco": "^0.1.1",
     "srt2vtt": "^1.3.0",
+    "video-controller": "^1.4.0",
+    "video-prefetcher": "^1.0.5",
+    "video-shortcut-controller": "^1.0.1",
     "video-transcript-tracker": "^1.0.2"
   },
   "devDependencies": {

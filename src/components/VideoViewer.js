@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import VideoShortcutController from "../video-shortcut-controller";
+import VideoShortcutController from "video-shortcut-controller";
 import VideoPrefetcher from "../video-prefetcher";
 import VideoTranscriptTracker from "video-transcript-tracker";
 import {captureVideo} from "../utils/video-capture";
