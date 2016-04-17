@@ -30,6 +30,9 @@ function scrollToBottom(cm) {
 export default class MarkdownEditor extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            text: ""
+        };
         /**
          * @type {EditorStore}
          */
@@ -73,20 +76,30 @@ export default class MarkdownEditor extends React.Component {
         this.editor = nodes.querySelector(".CodeMirror").CodeMirror;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.editorState.text !== this.state.text) {
+            this.isChanging = true;
+            this.setState({
+                text: nextProps.editorState.text
+            });
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.source !== this.editor.value;
+        return this.isChanging || nextProps.editorState.text !== nextState.text;
     }
 
     _codeMirrorOnChange(result) {
         var text = result.target.value;
+        this.setState({
+            text
+        });
         AppContextLocator.context.useCase(SaveEditorTextToStorageUseCase.create()).execute(text);
     }
 
     render() {
-        // TODO: value ?
-        const editorState = this.props.editorState;
         return <div className="MarkdownEditor">
-            <ReactCodeMirror defaultValue={editorState.text}
+            <ReactCodeMirror value={this.state.text}
                              mode="gfm"
                              lineWrapping="true"
                              lineNumbers="true"

@@ -80,7 +80,7 @@ export default class App extends React.Component {
                     <VideoTranscript transcript={editorState.currentTranscript}/>
                 </div>
                 <div className="MarkdownEditor-container">
-                    <MarkdownToolbar context={context}
+                    <MarkdownToolbar editorState={editorState}
                                      quote={this.quote.bind(this)}
 
                     />
