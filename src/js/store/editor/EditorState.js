@@ -27,7 +27,6 @@ export default class EditorState {
     }
 
     reduce(payload) {
-        console.log(payload);
         switch (payload.type) {
             case CreateNewFileUseCase.name:
                 return new EditorState();
