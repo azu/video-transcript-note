@@ -6,22 +6,6 @@ import fs from "fs";
 import Store from "../../framework/Store"
 import {formatVideoTime} from "../../../utils/time-formatter"
 import EditorState from "./EditorState";
-function readFile(filePath, callback) {
-    var urlReg = /(^https?:|^file:)/;
-    if (urlReg.test(filePath) || typeof fs.readFile === "undefined") {
-        var req = new XMLHttpRequest();
-        req.open("GET", filePath, true);
-        req.onload = function () {
-            callback(null, req.responseText);
-        };
-        req.onerror = function () {
-            callback(new Error(req.statusText));
-        };
-        req.send();
-    } else {
-        fs.readFile(filePath, callback);
-    }
-}
 export default class EditorStore extends Store {
     constructor() {
         super();
@@ -97,10 +81,6 @@ export default class EditorStore extends Store {
         return imageDir;
     }
 
-    getFilePath() {
-        return this.state.filePath;
-    }
-    
     onSaveImage({fileName, dataURL, currentTime, transcript}) {
         if (this.getSaveImageDir() == null) {
             console.error("先にMarkdownを保存してください");

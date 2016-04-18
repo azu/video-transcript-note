@@ -6,6 +6,7 @@ export default class MakeReadOnlyUseCase extends UseCase {
         return new this();
     }
 
+
     /**
      * @param {boolean} readonly
      */

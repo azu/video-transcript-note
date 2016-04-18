@@ -10,6 +10,8 @@ import VideoInputField from "./components/VideoInputField"
 import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
 import {formatVideoTime} from "./utils/time-formatter"
+import AppContextLocator from "./AppContextLocator";
+import SaveImageDataUseCase from "./js/UseCase/editor/SaveImageDataUseCase";
 var context = new MainContext();
 export default class App extends React.Component {
     constructor(props) {
@@ -36,10 +38,10 @@ export default class App extends React.Component {
 
 
     quote() {
-        var transcript = context.videoStore.getCurrentTranscript();
+        const transcript = context.videoStore.getCurrentTranscript();
         this.quoteCommunicator.quoteImage((dataURL, currentTime)=> {
-            var videoName = context.videoStore.getVideoName();
-            context.editorAction.saveImage({
+            const videoName = context.videoStore.getVideoName();
+            AppContextLocator.context.useCase(SaveImageDataUseCase.create()).execute({
                 fileName: `${videoName}-${formatVideoTime(currentTime)}.png`,
                 currentTime: currentTime,
                 dataURL: dataURL,
