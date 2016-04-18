@@ -4,9 +4,12 @@ const path = require("path");
 import Store from "../../framework/Store"
 import VideoState from "./VideoState";
 export default class VideoStore extends Store {
-    constructor(context) {
-        super(context);
-        this.state = new VideoState();
+    constructor() {
+        super();
+        this.state = new VideoState({
+            trackURL: "sample/sintel-short-en.vtt",
+            videoURL: "sample/sintel-short.mp4"
+        });
         this.onDispatch(this.setState);
     }
 
@@ -18,22 +21,7 @@ export default class VideoStore extends Store {
         this.emitChange();
     };
 
-    getState(){
+    getState() {
         return this.state;
-    }
-    getVideoName() {
-        return path.basename(this.state.videoURL, '.mp4');
-    }
-
-    getVideoURL() {
-        return this.state.videoURL;
-    }
-
-    getTrackURL() {
-        return this.state.trackURL;
-    }
-
-    getCurrentTranscript() {
-        return this.state.currentTranscript;
     }
 }
