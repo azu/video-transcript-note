@@ -35,9 +35,8 @@ export default class SaveImageDataUseCase extends UseCase {
                 currentTime,
                 transcript
             });
-            // FIXME: addQuoteUseCase have not `this.dispatch` !!!!
             const addQuoteUseCase = new AddQuoteTextUseCase();
-            return addQuoteUseCase.execute(quoteText);
+            return this.context.useCase(addQuoteUseCase).execute(quoteText);
         });
     }
 

@@ -18,6 +18,8 @@ export default class UseCase extends CoreEventEmitter {
     execute() {
         throw new TypeError(`should be overwrite ${this.constructor.name}#execute()`);
     }
+
+    
     
     /**
      * throw error event

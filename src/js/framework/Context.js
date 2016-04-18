@@ -53,6 +53,8 @@ export default class Context extends CoreEventEmitter {
      */
     useCase(useCase) {
         assert(useCase instanceof UseCase, `It should instance of UseCase: ${useCase}`);
+        // TODO: more think think UseCase -> UseCase
+        useCase.context = this;
         return new UseCaseExecutor(useCase, this._dispatcher);
     }
 
