@@ -1,5 +1,6 @@
 // LICENSE : MIT
 "use strict";
+const path = require("path");
 const InitialState = {
     currentTranscript: "",
     videoURL: null,
@@ -13,6 +14,11 @@ export default class VideoState {
         this.currentTranscript = state.currentTranscript || "";
         this.videoURL = state.videoURL;
         this.trackURL = state.trackURL;
+    }
+
+    get videoName() {
+        return path.basename(this.videoURL, '.mp4');
+
     }
 
     reduce(payload) {

@@ -1,6 +1,7 @@
 // LICENSE : MIT
 "use strict";
 const fs = require("fs");
+const mkdirp = require("mkdirp");
 const path = require("path");
 const uuid = require("uuid");
 import {formatVideoTime} from "../../utils/time-formatter"
@@ -107,9 +108,8 @@ export default class Editor {
     }) {
         const quoteText = transcript.trim().split("\n").join("\n> ");
         const fileName = path.basename(imageFilePath);
-        this.onQuote(
-            `![${formatVideoTime(currentTime)}](img/${fileName})
+        return `![${formatVideoTime(currentTime)}](img/${fileName})
 > ${quoteText}
-`);
+`;
     }
 }

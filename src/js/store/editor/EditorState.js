@@ -43,7 +43,7 @@ export default class EditorState {
                 return new EditorState(Object.assign(this, {
                     text: payload.text
                 }));
-            case AddQuoteTextUseCase.na:
+            case AddQuoteTextUseCase.name:
                 return new EditorState(Object.assign(this, {
                     text: this.text + "\n" + payload.quoteText,
                     quoteText: payload.quoteText

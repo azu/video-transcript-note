@@ -15,8 +15,8 @@ export default class VideoViewer extends React.Component {
         controller.start();
 
         this.props.quoteCommunicator.onQuoteImageRequest((done) => {
-            var dataURL = this.getCapturedImage();
-            var currentTime = this.getCurrentTime();
+            const dataURL = this.getCapturedImage();
+            const currentTime = this.getCurrentTime();
             done(dataURL, currentTime);
         });
         setTimeout(()=> {

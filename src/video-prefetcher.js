@@ -36,7 +36,6 @@ export default class VideoPrefetcher extends EventEmitter {
                 this.emit(VideoPrefetcher.eventTypes.error, new Error("Unexpected status code " + this.request.status + " for " + this.originalSrc));
                 return;
             }
-            console.log(this.video.currentType);
             var blob = new Blob([event.target.response], {
                 type: this.video.currentType
             });

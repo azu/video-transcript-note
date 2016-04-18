@@ -38,9 +38,13 @@ export default class App extends React.Component {
 
 
     quote() {
-        const transcript = context.videoStore.getCurrentTranscript();
+        /**
+         * @type {VideoState} FIXME: name
+         */
+        const videoState = this.props.VideoStore;
+        const transcript = videoState.currentTranscript;
         this.quoteCommunicator.quoteImage((dataURL, currentTime)=> {
-            const videoName = context.videoStore.getVideoName();
+            const videoName = videoState.videoName;
             AppContextLocator.context.useCase(SaveImageDataUseCase.create()).execute({
                 fileName: `${videoName}-${formatVideoTime(currentTime)}.png`,
                 currentTime: currentTime,
@@ -51,18 +55,16 @@ export default class App extends React.Component {
     }
 
     render() {
-        // TODO: fix name ..
         /**
-         * @type {EditorState}
+         * @type {EditorState} FIXME: name
          */
         const editorState = this.props.EditorStore;
         /**
-         * @type {VideoState}
+         * @type {VideoState} FIXME: name
          */
         const videoState = this.props.VideoStore;
         this.editorStore = context.editorStore;
         this.videoStore = context.videoStore;
-        this.quoteCommunicator = new QuoteCommunicator();
         var onInputVideoURL = function (videoURL) {
             context.videoAction.loadVideoURL(videoURL);
         };

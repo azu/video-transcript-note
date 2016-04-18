@@ -50,7 +50,6 @@ export default class BootStrap extends React.Component {
         // when change store, update component
         const onChangeHandler = () => {
             return requestAnimationFrame(() => {
-                console.log(context.getState());
                 this.setState(context.getState());
             })
         };
