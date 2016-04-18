@@ -12,30 +12,13 @@ import QuoteCommunicator from "./communicator/QuoteCommunicator"
 import {formatVideoTime} from "./utils/time-formatter"
 import AppContextLocator from "./AppContextLocator";
 import SaveImageDataUseCase from "./js/UseCase/editor/SaveImageDataUseCase";
+import LoadVideoFromFileURL from "./js/UseCase/video/LoadVideoFromFileURL";
 var context = new MainContext();
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.editorStore = context.editorStore;
-        this.videoStore = context.videoStore;
         this.quoteCommunicator = new QuoteCommunicator();
     }
-
-    componentDidMount() {
-        this.videoStore.onChange(this._videoOnChange.bind(this));
-    }
-
-    _videoOnChange() {
-        this.setState({
-            currentTranscript: this.videoStore.getCurrentTranscript()
-        });
-    }
-
-    componentWillUnmount() {
-        this.videoStore.removeAllChangeListeners();
-        this.editorStore.removeAllChangeListeners();
-    }
-
 
     quote() {
         /**
@@ -63,10 +46,8 @@ export default class App extends React.Component {
          * @type {VideoState} FIXME: name
          */
         const videoState = this.props.VideoStore;
-        this.editorStore = context.editorStore;
-        this.videoStore = context.videoStore;
-        var onInputVideoURL = function (videoURL) {
-            context.videoAction.loadVideoURL(videoURL);
+        const onInputVideoURL = function (videoURL) {
+            AppContextLocator.context.useCase(LoadVideoFromFileURL.create()).execute(videoURL);
         };
 
         // toggle by MarkdownToolbar
@@ -83,8 +64,8 @@ export default class App extends React.Component {
                 <div className="VideoViewer-container">
                     <VideoInputField handleSubmit={onInputVideoURL}/>
                     <VideoViewer context={context}
-                                 videoURL={this.videoStore.getVideoURL()}
-                                 trackURL={this.videoStore.getTrackURL()}
+                                 videoURL={videoState.videoURL}
+                                 trackURL={videoState.trackURL}
                                  quoteCommunicator={this.quoteCommunicator}/>
                     <VideoTranscript videoState={videoState}/>
                 </div>

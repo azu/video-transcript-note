@@ -1,6 +1,7 @@
 // LICENSE : MIT
 "use strict";
 const fs = require("fs");
+const assert = require("assert");
 const mkdirp = require("mkdirp");
 const path = require("path");
 const uuid = require("uuid");
@@ -72,11 +73,17 @@ export default class Editor {
         return imageDir;
     }
 
+    /**
+     * @param {string} fileName
+     * @param {string} dataURL
+     * @returns {Promise}
+     */
     saveImageAsFile({
         fileName,
         dataURL,
     }) {
         return new Promise((resolve, reject) => {
+            assert(dataURL);
             const saveImageDir = this.getSaveImageDir();
             if (!saveImageDir) {
                 reject(new Error("Markdownを保存してください"));

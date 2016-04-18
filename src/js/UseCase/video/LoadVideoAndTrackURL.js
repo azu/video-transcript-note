@@ -6,7 +6,7 @@ export default class LoadVideoAndTrackURL extends UseCase {
         return new this();
     }
 
-    execute(videoURL, trackURL) {
+    execute({videoURL, trackURL}) {
         this.dispatch({
             type: this.name,
             videoURL,

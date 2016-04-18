@@ -1,5 +1,6 @@
 // LICENSE : MIT
 "use strict";
+const path = require("path");
 import LoadVideoAndTrackURL from "../../UseCase/video/LoadVideoAndTrackURL";
 import LoadVideoFromFileURL from "../../UseCase/video/LoadVideoFromFileURL";
 import UpdateTranscript from "../../UseCase/video/UpdateTranscript";
@@ -16,6 +17,10 @@ export default class VideoState {
         this.currentTranscript = state.currentTranscript || "";
         this.videoURL = state.videoURL;
         this.trackURL = state.trackURL;
+    }
+
+    get videoName() {
+        return path.basename(this.videoURL, '.mp4');
     }
 
     reduce(payload) {
