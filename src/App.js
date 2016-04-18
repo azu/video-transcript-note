@@ -51,10 +51,15 @@ export default class App extends React.Component {
     }
 
     render() {
+        // TODO: fix name ..
         /**
          * @type {EditorState}
          */
         const editorState = this.props.EditorStore;
+        /**
+         * @type {VideoState}
+         */
+        const videoState = this.props.VideoStore;
         this.editorStore = context.editorStore;
         this.videoStore = context.videoStore;
         this.quoteCommunicator = new QuoteCommunicator();
@@ -79,7 +84,7 @@ export default class App extends React.Component {
                                  videoURL={this.videoStore.getVideoURL()}
                                  trackURL={this.videoStore.getTrackURL()}
                                  quoteCommunicator={this.quoteCommunicator}/>
-                    <VideoTranscript transcript={editorState.currentTranscript}/>
+                    <VideoTranscript videoState={videoState}/>
                 </div>
                 <div className="MarkdownEditor-container">
                     <MarkdownToolbar editorState={editorState}

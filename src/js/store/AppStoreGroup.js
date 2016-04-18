@@ -2,6 +2,7 @@
 "use strict";
 import StoreGroup from "../framework/UILayer/StoreGroup";
 import EditorStore from "./editor/EditorStore";
+import VideoStore from "./video/VideoStore";
 import editorRepository from "../infra/EditorRepository";
 export default class AppStoreGroup {
     /**
@@ -21,7 +22,8 @@ export default class AppStoreGroup {
      */
     static create() {
         return [
-            new EditorStore({editorRepository})
+            new EditorStore({editorRepository}),
+            new VideoStore()
         ];
     }
 }

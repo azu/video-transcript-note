@@ -2,6 +2,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
+const uuid = require("uuid");
 import {formatVideoTime} from "../../utils/time-formatter"
 function readFile(filePath, callback) {
     var urlReg = /(^https?:|^file:)/;
@@ -22,6 +23,7 @@ function readFile(filePath, callback) {
 
 export default class Editor {
     constructor() {
+        this.id = uuid();
         this.text = "";
         this.filePath = "";
     }

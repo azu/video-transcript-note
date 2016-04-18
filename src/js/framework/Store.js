@@ -37,7 +37,7 @@ export default class Store extends CoreEventEmitter {
      * @return {Object} nextState
      */
     getState(prevState) {
-        throw new Error("should be implemented Store#getState(): Object");
+        throw new Error(this.name + " should be implemented Store#getState(): Object");
     }
 
     /**
