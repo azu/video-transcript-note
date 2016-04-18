@@ -37,7 +37,6 @@
     "kantan-ej-dict": "^1.0.1",
     "lodash.debounce": "^3.1.0",
     "markdown-extensions": "^1.1.0",
-    "material-flux": "^1.2.0",
     "mkdirp": "^0.5.1",
     "nlp_compromise": "^1.1.2",
     "react": "^0.13.2",

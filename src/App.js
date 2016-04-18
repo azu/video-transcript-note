@@ -7,13 +7,11 @@ import MarkdownPreview from "./components/MarkdownPreview";
 import VideoTranscript from "./components/VideoTranscript"
 import VideoViewer from "./components/VideoViewer"
 import VideoInputField from "./components/VideoInputField"
-import MainContext from "./MainContext"
 import QuoteCommunicator from "./communicator/QuoteCommunicator"
 import {formatVideoTime} from "./utils/time-formatter"
 import AppContextLocator from "./AppContextLocator";
 import SaveImageDataUseCase from "./js/UseCase/editor/SaveImageDataUseCase";
 import LoadVideoFromFileURL from "./js/UseCase/video/LoadVideoFromFileURL";
-var context = new MainContext();
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -53,18 +51,17 @@ export default class App extends React.Component {
         // toggle by MarkdownToolbar
         var MarkdownComponent;
         if (editorState.readonly) {
-            MarkdownComponent = <MarkdownPreview context={context} source={editorState.text}
+            MarkdownComponent = <MarkdownPreview source={editorState.text}
                                                  readonly={editorState.readonly}/>;
         } else {
-            MarkdownComponent = <MarkdownEditor context={context} editorState={editorState}
+            MarkdownComponent = <MarkdownEditor editorState={editorState}
                                                 quote={this.quote.bind(this)}/>
         }
         return (
             <div className="App">
                 <div className="VideoViewer-container">
                     <VideoInputField handleSubmit={onInputVideoURL}/>
-                    <VideoViewer context={context}
-                                 videoURL={videoState.videoURL}
+                    <VideoViewer videoURL={videoState.videoURL}
                                  trackURL={videoState.trackURL}
                                  quoteCommunicator={this.quoteCommunicator}/>
                     <VideoTranscript videoState={videoState}/>
