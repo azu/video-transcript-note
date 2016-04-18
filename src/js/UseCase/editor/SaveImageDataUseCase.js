@@ -36,7 +36,9 @@ export default class SaveImageDataUseCase extends UseCase {
                 transcript
             });
             const addQuoteUseCase = new AddQuoteTextUseCase();
-            return this.context.useCase(addQuoteUseCase).execute(quoteText);
+            return this.context.useCase(addQuoteUseCase).execute(quoteText).then(() => {
+                this.editorRepository.save(editor);
+            });
         });
     }
 

@@ -51,7 +51,7 @@ export default class UseCaseExecutor {
         // emit event for Store
         this.dispatcher.dispatchDidExecuteUseCase(this.useCase);
     }
-
+    
     /**
      * execute UseCase instance.
      * UseCase is a executable object. it means that has `execute` method.

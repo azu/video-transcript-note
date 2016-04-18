@@ -3,6 +3,7 @@
 const assert = require("assert");
 import CoreEventEmitter from "./CoreEventEmitter";
 export const ON_WILL_EXECUTE_EACH_USECASE = "ON_WILL_EXECUTE_EACH_USECASE";
+export const ON_ERROR = "ON_ERROR";
 export const ON_DID_EXECUTE_EACH_USECASE = "ON_DID_EXECUTE_EACH_USECASE";
 
 /**
@@ -34,6 +35,7 @@ export default class Dispatcher extends CoreEventEmitter {
      */
     onWillExecuteEachUseCase(handler) {
         this.on(ON_WILL_EXECUTE_EACH_USECASE, handler);
+        return this.removeListener.bind(this, ON_WILL_EXECUTE_EACH_USECASE, handler);
     }
 
     /**
@@ -42,6 +44,20 @@ export default class Dispatcher extends CoreEventEmitter {
      */
     onDidExecuteEachUseCase(handler) {
         this.on(ON_DID_EXECUTE_EACH_USECASE, handler);
+        return this.removeListener.bind(this, ON_DID_EXECUTE_EACH_USECASE, handler);
+    }
+
+    /**
+     * called the {@link errorHandler} with error when error is occurred.
+     * @param {function(error: Error)} errorHandler
+     * @returns {function(this:Dispatcher)}
+     */
+    onError(errorHandler) {
+        return this.onDispatch(payload => {
+            if (payload.type === ON_ERROR) {
+                errorHandler(payload);
+            }
+        });
     }
 
     /**

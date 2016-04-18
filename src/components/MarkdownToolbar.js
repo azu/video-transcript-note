@@ -24,7 +24,8 @@ export default class MarkdownToolbar extends React.Component {
          * @type {EditorState}
          */
         const editorState = this.props.editorState;
-        AppContextLocator.context.useCase(SaveAsFileUseCase.create()).execute(editorState.filePath);
+        const filePath = editorState.filePath;
+        AppContextLocator.context.useCase(SaveAsFileUseCase.create()).execute(filePath);
     }
 
     onChangeMode(isReadonly) {

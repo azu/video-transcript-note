@@ -27,9 +27,12 @@ export default class Editor {
     constructor() {
         this.id = uuid();
         this.text = "";
-        this.filePath = "";
+        this.filePath = null;
     }
 
+    updateText(text) {
+        this.text = text;
+    }
 
     loadFile(filePath) {
         return new Promise((resolve, reject) => {
@@ -45,12 +48,16 @@ export default class Editor {
         });
     }
 
-    saveAsFile(filePath, text) {
+    saveAsFile(filePath) {
+        console.log(filePath, this.text);
+        const text = this.text;
         return new Promise((resolve, reject) => {
             fs.writeFile(filePath, text, (error) => {
                 if (error) {
                     return reject(error);
                 }
+                this.text = text;
+                this.filePath = filePath;
                 resolve();
             });
         });

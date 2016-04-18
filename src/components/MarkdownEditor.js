@@ -47,7 +47,7 @@ export default class MarkdownEditor extends React.Component {
         var quote = ()=> {
             this.props.quote();
         };
-        var saveFile = ()=> {
+        var saveFile = () => {
             const filePath = editorState.filePath;
             AppContextLocator.context.useCase(SaveAsFileUseCase.create()).execute(filePath)
         };

@@ -2,6 +2,7 @@
 "use strict";
 const assert = require("assert");
 import CoreEventEmitter from "./CoreEventEmitter";
+import {ON_ERROR} from "./Dispatcher";
 export default class UseCase extends CoreEventEmitter {
     constructor() {
         super();
@@ -19,8 +20,7 @@ export default class UseCase extends CoreEventEmitter {
         throw new TypeError(`should be overwrite ${this.constructor.name}#execute()`);
     }
 
-    
-    
+
     /**
      * throw error event
      * you can use it instead of `throw new Error()`
@@ -29,7 +29,8 @@ export default class UseCase extends CoreEventEmitter {
      */
     throwError(error) {
         const payload = {
-            type: `${this.useCaseName}:error`,
+            type: ON_ERROR,
+            useCase: this,
             error: error
         };
         this.dispatch(payload);

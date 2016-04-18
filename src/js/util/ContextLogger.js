@@ -5,6 +5,11 @@ export default class ContextLogger {
         console.info(`Dispatch:${payload.type}`, payload);
     }
 
+    static logError(payload) {
+        const errorName = payload.useCase ? payload.useCase.name : "";
+        console.error(`Error:${errorName}`, payload.error);
+    }
+
     /**
      * @param {Store[]} stores
      */

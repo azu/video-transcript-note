@@ -27,6 +27,9 @@ dispatcher.onWillExecuteEachUseCase(useCase => {
 dispatcher.onDispatch(payload => {
     ContextLogger.logDispatch(payload);
 });
+dispatcher.onError(payload => {
+    ContextLogger.logError(payload);
+});
 appContext.onChange((stores) => {
     ContextLogger.logOnChange(stores);
 });
