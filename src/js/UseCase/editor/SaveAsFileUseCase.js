@@ -3,6 +3,10 @@
 import FileUtils from "../../../utils/FileUtils"
 import UseCase from "../../framework/UseCase";
 import editorRepository, {EditorRepository} from "../../infra/EditorRepository";
+/**
+ * Save domain.text as a Markdown file.
+ * pass filePath
+ */
 export default class SaveAsFileUseCase extends UseCase {
     static create() {
         return new this({editorRepository});
