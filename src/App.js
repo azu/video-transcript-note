@@ -12,6 +12,9 @@ import {formatVideoTime} from "./utils/time-formatter"
 import AppContextLocator from "./AppContextLocator";
 import SaveImageDataUseCase from "./js/UseCase/editor/SaveImageDataUseCase";
 import LoadVideoFromFileURL from "./js/UseCase/video/LoadVideoFromFileURL";
+// State
+import EditorState from "./js/store/editor/EditorState";
+import VideoState from "./js/store/video/VideoState";
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -20,9 +23,9 @@ export default class App extends React.Component {
 
     quote() {
         /**
-         * @type {VideoState} FIXME: name
+         * @type {VideoState}
          */
-        const videoState = this.props.VideoStore;
+        const videoState = this.props.VideoState;
         const transcript = videoState.currentTranscript;
         this.quoteCommunicator.quoteImage((dataURL, currentTime)=> {
             const videoName = videoState.videoName;
@@ -37,13 +40,13 @@ export default class App extends React.Component {
 
     render() {
         /**
-         * @type {EditorState} FIXME: name
+         * @type {EditorState}
          */
-        const editorState = this.props.EditorStore;
+        const editorState = this.props.EditorState;
         /**
-         * @type {VideoState} FIXME: name
+         * @type {VideoState}
          */
-        const videoState = this.props.VideoStore;
+        const videoState = this.props.VideoState;
         const onInputVideoURL = function (videoURL) {
             AppContextLocator.context.useCase(LoadVideoFromFileURL.create()).execute(videoURL);
         };
@@ -77,3 +80,8 @@ export default class App extends React.Component {
         )
     }
 }
+
+App.propTypes = {
+    VideoState: React.PropTypes.instanceOf(VideoState).isRequired,
+    EditorState: React.PropTypes.instanceOf(EditorState).isRequired
+};

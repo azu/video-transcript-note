@@ -75,16 +75,18 @@ export default class StoreGroup extends CoreEventEmitter {
              }
              */
             const prevState = this._storeValueMap.get(store.name);
+            const nextState = store.getState(prevState);
+            const nextStateName = nextState.name || nextState.constructor.name;
+            assert(nextStateName, `${store.name}.getState() should return Object that should have .name property.`);
             if (prevState && this._previousChangingStores.indexOf(store) === -1) {
                 return {
-                    [store.name]: prevState
+                    [nextStateName]: prevState
                 };
             }
-            const nextState = store.getState(prevState);
-            this._storeValueMap.set(store.name, nextState);
+            this._storeValueMap.set(nextStateName, nextState);
             assert(typeof nextState == "object", `${store.name}.getState() should return Object`);
             return {
-                [store.name]: nextState
+                [nextStateName]: nextState
             };
         });
         return Object.assign({}, ...stateMap);
