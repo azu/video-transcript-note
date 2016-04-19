@@ -7,7 +7,7 @@ import editorRepository, {EditorRepository} from "../../infra/EditorRepository";
  * Save domain.text as a Markdown file.
  * pass filePath
  */
-export default class SaveAsFileUseCase extends UseCase {
+export default class SaveAsFileCurrentTextUseCase extends UseCase {
     static create() {
         return new this({editorRepository});
     }
@@ -33,10 +33,6 @@ export default class SaveAsFileUseCase extends UseCase {
             const editor = this.editorRepository.lastUsed();
             return editor.saveAsFile(filePath).then(() => {
                 this.editorRepository.save(editor);
-                this.dispatch({
-                    type: this.name,
-                    filePath
-                });
             });
         });
     }

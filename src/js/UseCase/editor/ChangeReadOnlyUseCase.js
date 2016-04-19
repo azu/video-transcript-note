@@ -1,9 +1,18 @@
 // LICENSE : MIT
 "use strict";
 import UseCase from "../../framework/UseCase";
+import editorRepository, {EditorRepository} from "../../infra/EditorRepository";
 export default class MakeReadOnlyUseCase extends UseCase {
     static create() {
-        return new this();
+        return new this({editorRepository});
+    }
+
+    /**
+     * @param {EditorRepository} editorRepository
+     */
+    constructor({editorRepository}) {
+        super();
+        this.editorRepository = editorRepository;
     }
 
 
@@ -11,9 +20,8 @@ export default class MakeReadOnlyUseCase extends UseCase {
      * @param {boolean} readonly
      */
     execute(readonly) {
-        this.dispatch({
-            type: this.name,
-            readonly
-        })
+        const editor = this.editorRepository.lastUsed();
+        editor.setReadonlyState(readonly);
+        this.editorRepository.save(editor);
     }
 }

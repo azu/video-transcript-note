@@ -4,6 +4,7 @@ import StoreGroup from "../framework/UILayer/StoreGroup";
 import EditorStore from "./editor/EditorStore";
 import VideoStore from "./video/VideoStore";
 import editorRepository from "../infra/EditorRepository";
+import videoRepository from "../infra/VideoRepository";
 export default class AppStoreGroup {
     /**
      * @param {Dispatcher} dispatcher
@@ -23,7 +24,7 @@ export default class AppStoreGroup {
     static create() {
         return [
             new EditorStore({editorRepository}),
-            new VideoStore()
+            new VideoStore({videoRepository})
         ];
     }
 }

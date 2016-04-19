@@ -24,14 +24,29 @@ function readFile(filePath, callback) {
 }
 
 export default class Editor {
-    constructor() {
+    constructor({text, filePath, readonly} = {}) {
         this.id = uuid();
-        this.text = "";
-        this.filePath = null;
+        this.text = text || "";
+        this.filePath = filePath || null;
+        this.readonly = readonly !== undefined ? readonly : false;
+    }
+
+    appendText(appendedText) {
+        this.updateText(this.text + "\n" + appendedText);
     }
 
     updateText(text) {
+        if (this.readonly) {
+            throw new Error("editor is readonly. could not update.");
+        }
         this.text = text;
+    }
+
+    /**
+     * @param {boolean} isReadonly
+     */
+    setReadonlyState(isReadonly) {
+        this.readonly = isReadonly;
     }
 
     loadFile(filePath) {
@@ -40,23 +55,20 @@ export default class Editor {
                 if (error) {
                     return reject(error);
                 }
-                const text = String(data);
-                this.text = text;
+                this.text = String(data);
                 this.filePath = filePath;
-                return resolve(text);
+                return resolve();
             });
         });
     }
 
     saveAsFile(filePath) {
-        console.log(filePath, this.text);
         const text = this.text;
         return new Promise((resolve, reject) => {
             fs.writeFile(filePath, text, (error) => {
                 if (error) {
                     return reject(error);
                 }
-                this.text = text;
                 this.filePath = filePath;
                 resolve();
             });

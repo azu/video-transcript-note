@@ -32,13 +32,8 @@ export default class OpenTextFileUseCase extends UseCase {
             return resolve(filePath);
         }).then(filePath => {
             const editor = this.editorRepository.lastUsed();
-            return editor.loadFile(filePath).then(text => {
+            return editor.loadFile(filePath).then(() => {
                 this.editorRepository.save(editor);
-                this.dispatch({
-                    type: this.name,
-                    text,
-                    filePath
-                });
             });
         });
     }

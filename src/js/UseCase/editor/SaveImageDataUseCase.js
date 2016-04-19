@@ -35,6 +35,8 @@ export default class SaveImageDataUseCase extends UseCase {
                 currentTime,
                 transcript
             });
+            editor.appendText(quoteText);
+            // dispatch "quote" and view should notify quote!
             const addQuoteUseCase = new AddQuoteTextUseCase();
             return this.context.useCase(addQuoteUseCase).execute(quoteText).then(() => {
                 this.editorRepository.save(editor);

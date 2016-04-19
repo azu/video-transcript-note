@@ -5,7 +5,7 @@ import AppContextLocator from "../AppContextLocator";
 import CreateNewFileUseCase from "../js/UseCase/editor/CreateNewFileUseCase";
 import OpenTextFileUseCase from "../js/UseCase/editor/OpenTextFileUseCase";
 import ChangeReadOnlyUseCase from "../js/UseCase/editor/ChangeReadOnlyUseCase";
-import SaveAsFileUseCase from "../js/UseCase/editor/SaveAsFileUseCase";
+import SaveAsFileCurrentTextUseCase from "../js/UseCase/editor/SaveAsFileCurrentTextUseCase";
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
         this.props.quote();
@@ -25,7 +25,7 @@ export default class MarkdownToolbar extends React.Component {
          */
         const editorState = this.props.editorState;
         const filePath = editorState.filePath;
-        AppContextLocator.context.useCase(SaveAsFileUseCase.create()).execute(filePath);
+        AppContextLocator.context.useCase(SaveAsFileCurrentTextUseCase.create()).execute(filePath);
     }
 
     onChangeMode(isReadonly) {

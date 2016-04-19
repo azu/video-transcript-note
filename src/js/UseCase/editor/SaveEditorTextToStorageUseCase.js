@@ -17,9 +17,5 @@ export default class SaveEditorTextToStorageUseCase extends UseCase {
         const editor = this.editorRepository.lastUsed();
         editor.updateText(text);
         this.editorRepository.save(editor);
-        this.dispatch({
-            type: this.name,
-            text
-        });
     }
 }

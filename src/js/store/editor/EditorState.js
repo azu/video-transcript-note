@@ -3,16 +3,9 @@
 
 // Related UseCase
 import AddQuoteTextUseCase from "../../UseCase/editor/AddQuoteTextUseCase";
-import ChangeReadOnlyUseCase from "../../UseCase/editor/ChangeReadOnlyUseCase";
-import CreateNewFileUseCase from "../../UseCase/editor/CreateNewFileUseCase";
-import OpenTextFileUseCase from "../../UseCase/editor/OpenTextFileUseCase";
-import SaveAsFileUseCase from "../../UseCase/editor/SaveAsFileUseCase";
-import SaveEditorTextToStorageUseCase from "../../UseCase/editor/SaveEditorTextToStorageUseCase";
-import SaveImageDataUseCase from "../../UseCase/editor/SaveImageDataUseCase";
 const InitialState = {
     filePath: null,
     text: "",
-    quoteText: "",
     readonly: false
 };
 export default class EditorState {
@@ -22,35 +15,27 @@ export default class EditorState {
     constructor(state = InitialState) {
         this.filePath = state.filePath || InitialState.filePath;
         this.text = state.text || InitialState.text;
-        this.quoteText = state.quoteText || InitialState.quoteText;
         this.readonly = state.readonly || InitialState.readonly;
+        // volatilization state - that effect at once.
+        this.isAppendingQuoteText = state.isAppendingQuoteText || false
+    }
+
+    /**
+     * @param {Editor} editor
+     */
+    mergeEntity(editor) {
+        return new EditorState(Object.assign(this, {
+            text: editor.text,
+            filePath: editor.filePath,
+            readonly: editor.readonly
+        }));
     }
 
     reduce(payload) {
         switch (payload.type) {
-            case CreateNewFileUseCase.name:
-                return new EditorState();
-            case OpenTextFileUseCase.name:
-                return new EditorState({
-                    text: payload.text,
-                    filePath: payload.filePath
-                });
-            case SaveAsFileUseCase.name:
-                return new EditorState(Object.assign(this, {
-                    filePath: payload.filePath
-                }));
-            case SaveEditorTextToStorageUseCase.name:
-                return new EditorState(Object.assign(this, {
-                    text: payload.text
-                }));
             case AddQuoteTextUseCase.name:
                 return new EditorState(Object.assign(this, {
-                    text: this.text + "\n" + payload.quoteText,
-                    quoteText: payload.quoteText
-                }));
-            case ChangeReadOnlyUseCase.name:
-                return new EditorState(Object.assign(this, {
-                    readonly: payload.readonly
+                    isAppendingQuoteText: true
                 }));
             default:
                 return this;
