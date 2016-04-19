@@ -4,9 +4,10 @@ import VideoShortcutController from "video-shortcut-controller";
 import VideoPrefetcher from "../video-prefetcher";
 import VideoTranscriptTracker from "video-transcript-tracker";
 import {captureVideo} from "../utils/video-capture";
+import AppContextLocator from "../AppContextLocator";
+import UpdateTranscript from "../js/UseCase/video/UpdateTranscript";
 import React from "react";
 export default class VideoViewer extends React.Component {
-
     componentDidMount() {
         this.video = React.findDOMNode(this.refs.video);
         var container = React.findDOMNode(this);
@@ -14,8 +15,8 @@ export default class VideoViewer extends React.Component {
         controller.start();
 
         this.props.quoteCommunicator.onQuoteImageRequest((done) => {
-            var dataURL = this.getCapturedImage();
-            var currentTime = this.getCurrentTime();
+            const dataURL = this.getCapturedImage();
+            const currentTime = this.getCurrentTime();
             done(dataURL, currentTime);
         });
         setTimeout(()=> {
@@ -44,10 +45,9 @@ export default class VideoViewer extends React.Component {
     }
 
     onStart() {
-        if(this.props.videoURL == null) {
+        if (this.props.videoURL == null) {
             return;
         }
-        var videoAction = this.props.context.videoAction;
         this.prefetcher = new VideoPrefetcher(this.video);
         this.prefetcher.onProgress(function (event) {
             var percentComplete = event.loaded / event.total;
@@ -71,10 +71,10 @@ export default class VideoViewer extends React.Component {
         });
         this.tracker.onDisable(() => {
             console.log("disable");
-            videoAction.updateTranscript("");
+            AppContextLocator.context.useCase(UpdateTranscript.create()).execute("");
         });
         this.tracker.onChange((text)=> {
-            videoAction.updateTranscript(text);
+            AppContextLocator.context.useCase(UpdateTranscript.create()).execute(text);
         });
         this.tracker.start();
     }

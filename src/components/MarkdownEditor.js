@@ -14,6 +14,12 @@ require("codemirror/mode/meta.js");
 require("codemirror/addon/edit/continuelist.js");
 
 
+import EditorState from "../js/store/editor/EditorState";
+import AppContextLocator from "../AppContextLocator";
+import SaveEditorTextToStorageUseCase from "../js/UseCase/editor/SaveEditorTextToStorageUseCase";
+import SaveAsFileCurrentTextUseCase from "../js/UseCase/editor/SaveAsFileCurrentTextUseCase";
+import CreateNewFileUseCase from "../js/UseCase/editor/CreateNewFileUseCase";
+import OpenTextFileUseCase from "../js/UseCase/editor/OpenTextFileUseCase";
 function scrollToBottom(cm) {
     var line = cm.lineCount();
     cm.setCursor({line: line, ch: 0});
@@ -24,25 +30,26 @@ function scrollToBottom(cm) {
 export default class MarkdownEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.editorStore = this.props.context.editorStore;
-        var editorAction = this.props.context.editorAction;
-        this.editorStore.on("quote", (quoteText)=> {
-            setTimeout(()=> {
-                scrollToBottom(this.editor);
-            }, 64);
-        });
-        var quote = ()=> {
+        /**
+         * @type {EditorState}
+         */
+        const editorState = this.props.editorState;
+        this.state = {
+            text: editorState.text,
+            isAppendingQuoteText: false
+        };
+        const quote = ()=> {
             this.props.quote();
         };
-        var saveFile = ()=> {
-            var filePath = this.editorStore.getFilePath();
-            editorAction.saveAsFile(filePath);
+        const saveFile = () => {
+            const filePath = editorState.filePath;
+            AppContextLocator.context.useCase(SaveAsFileCurrentTextUseCase.create()).execute(filePath)
         };
-        var createNewFile = ()=> {
-            editorAction.createNewFile();
+        const createNewFile = ()=> {
+            AppContextLocator.context.useCase(CreateNewFileUseCase.create()).execute();
         };
-        var openFile = ()=> {
-            editorAction.openFile();
+        const openFile = ()=> {
+            AppContextLocator.context.useCase(OpenTextFileUseCase.create()).execute();
         };
         this.extraKeys = {
             "Cmd-T": quote,
@@ -63,19 +70,55 @@ export default class MarkdownEditor extends React.Component {
         this.editor = nodes.querySelector(".CodeMirror").CodeMirror;
     }
 
+    /*
+       React Component LifeCycle
+
+       - update state - componentwillreceiveprops
+       - update DOM - componentDidUpdate
+
+           https://facebook.github.io/react/docs/component-specs.html
+           https://facebook.github.io/react/blog/2016/01/08/A-implies-B-does-not-imply-B-implies-A.html
+           http://javascript.tutorialhorizon.com/2014/09/13/execution-sequence-of-a-react-components-lifecycle-methods/
+           http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+        */
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.editorState.text !== this.state.text) {
+            this.isChanging = true;
+            // scroll flag
+            const isAppendingQuoteText = nextProps.editorState.isAppendingQuoteText;
+            this.setState({
+                text: nextProps.editorState.text,
+                isAppendingQuoteText
+            });
+        } else {
+            this.isChanging = false;
+        }
+    }
+
+
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.source !== this.editor.value;
+        return this.isChanging || nextProps.editorState.text !== nextState.text;
+    }
+
+    // didでDOMを新しい位置へ移動
+    componentDidUpdate(prevProps, prevState) {
+        // if appending quote, scroll to editor bottom
+        if (this.state.isAppendingQuoteText) {
+            scrollToBottom(this.editor);
+        }
     }
 
     _codeMirrorOnChange(result) {
         var text = result.target.value;
-        var action = this.props.context.editorAction;
-        action.save(text);
+        this.setState({
+            text
+        });
+        AppContextLocator.context.useCase(SaveEditorTextToStorageUseCase.create()).execute(text);
     }
 
     render() {
         return <div className="MarkdownEditor">
-            <ReactCodeMirror value={this.props.source}
+            <ReactCodeMirror value={this.state.text}
                              mode="gfm"
                              lineWrapping="true"
                              lineNumbers="true"
@@ -85,3 +128,6 @@ export default class MarkdownEditor extends React.Component {
 
     }
 }
+MarkdownEditor.propTypes = {
+    editorState: React.PropTypes.instanceOf(EditorState).isRequired
+};

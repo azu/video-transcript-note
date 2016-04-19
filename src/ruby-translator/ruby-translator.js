@@ -4,7 +4,7 @@ import {translateWord} from "./en-ja-translator";
 function isEmptyText(text) {
     return /^\s*$/.test(text);
 }
-export function rubyTranslate(text) {
+export function rubyTranslate(text = "") {
     var speRegExp = /([\s,.;:=@#<>\[\]{}()`'"!\/])/g;
     var fragment = document.createElement("div");
     var match, last_idx = 0;

@@ -1,35 +1,43 @@
 "use strict";
 import React from "react";
-import path from "path";
+import EditorState from "../js/store/editor/EditorState";
+import AppContextLocator from "../AppContextLocator";
+import CreateNewFileUseCase from "../js/UseCase/editor/CreateNewFileUseCase";
+import OpenTextFileUseCase from "../js/UseCase/editor/OpenTextFileUseCase";
+import ChangeReadOnlyUseCase from "../js/UseCase/editor/ChangeReadOnlyUseCase";
+import SaveAsFileCurrentTextUseCase from "../js/UseCase/editor/SaveAsFileCurrentTextUseCase";
 export default class MarkdownToolbar extends React.Component {
     onQuote() {
         this.props.quote();
     }
 
     onCreateNewFile() {
-        var { context } = this.props;
-        context.editorAction.createNewFile();
+        AppContextLocator.context.useCase(CreateNewFileUseCase.create()).execute();
     }
 
     onOpen() {
-        var { context } = this.props;
-        context.editorAction.openFile();
+        AppContextLocator.context.useCase(OpenTextFileUseCase.create()).execute();
     }
 
     onSave() {
-        var { editorStore, editorAction } = this.props.context;
-        var filePath = editorStore.getFilePath();
-        editorAction.saveAsFile(filePath);
+        /**
+         * @type {EditorState}
+         */
+        const editorState = this.props.editorState;
+        const filePath = editorState.filePath;
+        AppContextLocator.context.useCase(SaveAsFileCurrentTextUseCase.create()).execute(filePath);
     }
 
     onChangeMode(isReadonly) {
-        var { editorAction } = this.props.context;
-        editorAction.changeReadonly(isReadonly);
+        AppContextLocator.context.useCase(ChangeReadOnlyUseCase.create()).execute(isReadonly);
     }
 
     render() {
-        var { editorStore } = this.props.context;
-        if (editorStore.isReadonly()) {
+        /**
+         * @type {EditorState}
+         */
+        const editorState = this.props.editorState;
+        if (editorState.readonly) {
             return (
                 <div className="MemoToolbar">
                     <button onClick={this.onChangeMode.bind(this,false)}><span className="fa fa-pencil">Editor</span>
@@ -51,3 +59,6 @@ export default class MarkdownToolbar extends React.Component {
         }
     }
 }
+MarkdownToolbar.propTypes = {
+    editorState: React.PropTypes.instanceOf(EditorState).isRequired
+};
